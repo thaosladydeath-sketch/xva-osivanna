@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administración XV</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:920px;margin:0 auto;padding:20px;background:#1b1026;color:#f7eef9}
+table{width:100%;border-collapse:collapse;margin:14px 0}
+th,td{padding:8px;border-bottom:1px solid #ffffff22;text-align:left;font-size:.95rem}
+textarea{width:100%;height:130px;background:#2b1a38;color:inherit;border:1px solid #ecc872;border-radius:8px;padding:8px;font:inherit}
+button{padding:9px 16px;border-radius:999px;border:1px solid #ecc872;background:#ecc872;color:#2a1630;font-weight:700;cursor:pointer;margin:4px 0}
+td button{padding:5px 12px;font-size:.85rem}
+.t{overflow-x:auto}.ok{color:#8fe3a2}.no{color:#ff9aa8}
+</style></head>
+<body>
+<h1>Confirmaciones de Ivanna</h1>
+<button id="login">Entrar con Google</button>
+<div id="panel" style="display:none">
+  <p id="res"></p>
+  <div class="t"><table>
+    <thead><tr><th>Invitado</th><th>Boletos</th><th>Mesa</th><th>Respuesta</th><th>Usa</th><th>Link</th></tr></thead>
+    <tbody id="tb"></tbody>
+  </table></div>
+  <h2>Cargar o actualizar invitados</h2>
+  <p>En tu Google Sheets selecciona las columnas A a D (código, nombre, boletos, mesa), cópialas y pégalas aquí. Las respuestas que ya existan no se borran.</p>
+  <textarea id="ta"></textarea><br>
+  <button id="cargar">Cargar invitados</button> <span id="msg"></span>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyBy_FGpgaOn5PmR6qkBuFTJj-Wg_GQcEH4",
+  authDomain: "xv-ivanna-aa920.firebaseapp.com",
+  projectId: "xv-ivanna-aa920",
+  storageBucket: "xv-ivanna-aa920.firebasestorage.app",
+  messagingSenderId: "347193806636",
+  appId: "1:347193806636:web:5774f4a26c42300929a689"
+});
+const auth = getAuth(app), db = getFirestore(app);
+const $ = id => document.getElementById(id);
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+$('login').onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert('No se pudo entrar: ' + e.message));
+onAuthStateChanged(auth, u => {
+  $('panel').style.display = u ? 'block' : 'none';
+  $('login').style.display = u ? 'none' : 'inline-block';
+  if (u) lista();
+});
+
+async function lista() {
+  try {
+    const s = await getDocs(collection(db, 'invitados'));
+    let si = 0, no = 0, pend = 0, bol = 0, rows = '';
+    s.docs.sort((a, b) => String(a.data().nombre).localeCompare(String(b.data().nombre))).forEach(x => {
+      const d = x.data(), c = d.confirmo || '';
+      if (c === 'Sí') { si++; bol += d.usados || 0; } else if (c === 'No') no++; else pend++;
+      rows += `<tr><td>${esc(d.nombre)}</td><td>${esc(d.boletos)}</td><td>${esc(d.mesa)}</td>` +
+        `<td class="${c === 'Sí' ? 'ok' : c === 'No' ? 'no' : ''}">${c || 'Pendiente'}</td>` +
+        `<td>${c === 'Sí' ? esc(d.usados) : ''}</td><td><button data-c="${esc(x.id)}">Copiar link</button></td></tr>`;
+    });
+    $('tb').innerHTML = rows;
+    $('res').textContent = 'Confirmaron: ' + si + ' · No asisten: ' + no + ' · Pendientes: ' + pend + ' · Boletos confirmados: ' + bol;
+  } catch (e) {
+    $('res').textContent = 'Sin permiso para ver la lista. Entra con la cuenta administradora y revisa que pegaste las reglas.';
+  }
+}
+
+$('tb').onclick = e => {
+  const c = e.target.dataset.c;
+  if (!c) return;
+  navigator.clipboard.writeText(new URL('./?c=' + c, location.href).href);
+  e.target.textContent = '¡Copiado!';
+};
+
+$('cargar').onclick = async () => {
+  const filas = $('ta').value.split('\n').map(l => l.split('\t').map(x => x.trim()))
+    .filter(f => f[0] && f[1] && f[0].toLowerCase() !== 'codigo');
+  let n = 0;
+  try {
+    for (const [cod, nom, bol, mesa] of filas) {
+      await setDoc(doc(db, 'invitados', cod.toUpperCase()), { nombre: nom, boletos: Number(bol) || 1, mesa: mesa || '' }, { merge: true });
+      n++;
+    }
+    $('msg').textContent = 'Listo: ' + n + ' invitados cargados.';
+    lista();
+  } catch (e) {
+    $('msg').textContent = 'Error: ' + e.message;
+  }
+};
+</script>
+</body></html>
