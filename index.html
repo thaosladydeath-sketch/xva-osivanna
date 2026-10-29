@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es"><head><base target="_top"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mis XV años</title>
+<style>
+:root{--bg:#1b1026;--card:#2b1a38;--oro:#ecc872;--rosa:#e88fb4;--txt:#f7eef9;--sub:#bfaecb}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#3a2050,var(--bg) 60%);color:var(--txt);font-family:Georgia,'Times New Roman',serif;line-height:1.6;text-align:center;min-height:100vh}
+main{max-width:720px;margin:0 auto;padding:0 18px 60px}
+.hero{padding:56px 0 24px}
+.hero small{color:var(--sub);font-size:1.05rem;letter-spacing:.04em}
+.hero h1{font-size:clamp(3.2rem,15vw,5.6rem);font-weight:400;font-style:italic;margin:.1em 0;color:var(--oro);line-height:1}
+.hero p{margin:.2em 0;color:var(--sub)}
+.hero b{color:var(--txt);font-weight:400}
+.card{background:var(--card);border:1px solid #ecc87244;border-radius:18px;padding:26px 22px;margin:22px 0}
+.card h2{margin:0 0 6px;font-weight:400;font-size:1.6rem}
+.dato{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}
+.dato span{background:#ffffff12;border-radius:999px;padding:6px 16px;font-size:.98rem}
+.dato strong{color:var(--oro);font-weight:700}
+select{font:inherit;font-size:1.1rem;padding:10px 14px;border-radius:10px;border:1px solid var(--oro);background:var(--bg);color:var(--txt);margin:8px 0 16px}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+button{font:inherit;font-size:1.05rem;padding:13px 24px;border-radius:999px;border:1px solid var(--oro);background:transparent;color:var(--txt);cursor:pointer}
+button.si{background:var(--oro);color:#2a1630;font-weight:700}
+button:focus-visible{outline:3px solid var(--rosa);outline-offset:2px}
+button:disabled{opacity:.5;cursor:wait}
+#estado{min-height:1.6em;margin-top:14px;color:var(--oro)}
+#c{width:100%;height:min(62vh,480px);border-radius:14px;overflow:hidden;touch-action:none;cursor:grab;background:#1b1026;margin-top:10px}
+#c canvas{display:block}
+.vistas{margin-top:12px}
+.vistas button{padding:9px 18px;font-size:.95rem;margin:4px}
+.nota{color:var(--sub);font-size:.92rem}
+#error{display:none}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style></head>
+<body><main>
+<section class="hero">
+  <small>Te invito a celebrar mis quince años</small>
+  <h1 id="q"></h1>
+  <p><b id="fecha"></b> a las <b id="hora"></b></p>
+  <p id="lugar"></p>
+</section>
+
+<p id="cargando" class="nota">Cargando tu invitación…</p>
+
+<section id="error" class="card">
+  <h2>No encontramos tu invitación</h2>
+  <p class="nota">Revisa que el link esté completo, tal como te lo enviaron. Si el problema sigue, escríbenos.</p>
+</section>
+
+<section id="inv" class="card" style="display:none">
+  <h2 id="hola"></h2>
+  <div class="dato">
+    <span>Boletos asignados: <strong id="nb"></strong></span>
+    <span id="mesasTxt"></span>
+  </div>
+  <label for="num">¿Cuántos boletos usarás?</label><br>
+  <select id="num"></select>
+  <div class="btns">
+    <button class="si" id="bsi">Sí asistiré</button>
+    <button id="bno">No podré asistir</button>
+  </div>
+  <div id="estado" role="status"></div>
+</section>
+
+<section id="salonSec" class="card" style="display:none">
+  <h2>Tu lugar en el salón</h2>
+  <p class="nota">Arrastra para girar y usa la rueda o dos dedos para acercar. Tus mesas están en dorado.</p>
+  <div id="c"></div>
+  <div class="vistas">
+    <button id="vMia">Ir a mi mesa</button>
+    <button id="vTodo">Vista general</button>
+  </div>
+</section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// ====== EDITA AQUÍ los datos de tu evento ======
+const EVENTO = {
+  quinceanera: "Ivanna",
+  fecha: "Viernes 18 de diciembre de 2026",
+  hora: "7:00 p. m.",
+  lugar: "Ex Hacienda de San Agustín · Atlixco, Puebla"
+};
+// ===============================================
+const firebaseConfig = {
+  apiKey: "AIzaSyBy_FGpgaOn5PmR6qkBuFTJj-Wg_GQcEH4",
+  authDomain: "xv-ivanna-aa920.firebaseapp.com",
+  projectId: "xv-ivanna-aa920",
+  storageBucket: "xv-ivanna-aa920.firebasestorage.app",
+  messagingSenderId: "347193806636",
+  appId: "1:347193806636:web:5774f4a26c42300929a689"
+};
+const db = getFirestore(initializeApp(firebaseConfig));
+const CODIGO = (new URLSearchParams(location.search).get('c') || '').trim().toUpperCase();
+const $ = id => document.getElementById(id);
+$('q').textContent = EVENTO.quinceanera;
+$('fecha').textContent = EVENTO.fecha;
+$('hora').textContent = EVENTO.hora;
+$('lugar').textContent = EVENTO.lugar;
+const ref = /^[A-Z0-9-]{3,40}$/.test(CODIGO) ? doc(db, 'invitados', CODIGO) : null;
+
+if (!ref) pintar(null);
+else getDoc(ref).then(x => pintar(x.exists() ? x.data() : null))
+  .catch(() => { $('cargando').textContent = 'No se pudo cargar. Recarga la página.'; });
+
+function pintar(d) {
+  $('cargando').style.display = 'none';
+  if (!d) { $('error').style.display = 'block'; return; }
+  const mesas = (String(d.mesa || '').match(/\d+/g) || []).map(Number);
+  $('hola').textContent = 'Hola, ' + d.nombre;
+  $('nb').textContent = d.boletos;
+  $('mesasTxt').innerHTML = mesas.length ? (mesas.length > 1 ? 'Mesas: ' : 'Mesa: ') + '<strong>' + mesas.join(', ') + '</strong>' : 'Mesa por asignar';
+  const sel = $('num');
+  for (let i = 1; i <= d.boletos; i++) sel.add(new Option(i + (i === 1 ? ' boleto' : ' boletos'), i));
+  if (d.usados >= 1) sel.value = d.usados;
+  mostrarEstado(d.confirmo, d.usados);
+  $('inv').style.display = 'block';
+  $('salonSec').style.display = 'block';
+  salon(mesas);
+}
+
+function mostrarEstado(c, n) {
+  $('estado').textContent = c === 'Sí' ? 'Confirmaste ' + n + (n == 1 ? ' boleto.' : ' boletos.') + ' Puedes cambiarlo cuando quieras.'
+    : c === 'No' ? 'Registramos que no podrás asistir. Si cambias de opinión, vuelve a confirmar.' : '';
+}
+
+async function enviar(asiste) {
+  const n = asiste ? Number($('num').value) : 0;
+  $('bsi').disabled = $('bno').disabled = true;
+  $('estado').textContent = 'Guardando…';
+  try {
+    await updateDoc(ref, { confirmo: asiste ? 'Sí' : 'No', usados: n, fecha: serverTimestamp() });
+    $('estado').textContent = asiste ? '¡Listo! Confirmamos ' + n + (n == 1 ? ' boleto. Nos vemos en la fiesta.' : ' boletos. Nos vemos en la fiesta.') : 'Gracias por avisarnos. Te vamos a extrañar.';
+  } catch (e) {
+    $('estado').textContent = 'No se pudo guardar. Intenta de nuevo.';
+  }
+  $('bsi').disabled = $('bno').disabled = false;
+}
+$('bsi').onclick = () => enviar(true);
+$('bno').onclick = () => enviar(false);
+
+// ====== Salón 3D ======
+function salon(mesas) {
+  const el = $('c');
+  const r = new THREE.WebGLRenderer({ antialias: true });
+  r.setPixelRatio(Math.min(devicePixelRatio, 2));
+  r.setSize(el.clientWidth, el.clientHeight);
+  el.appendChild(r.domElement);
+  const s = new THREE.Scene();
+  s.background = new THREE.Color(0x1b1026);
+  const cam = new THREE.PerspectiveCamera(50, el.clientWidth / el.clientHeight, .1, 200);
+  s.add(new THREE.AmbientLight(0xffffff, .75));
+  const sol = new THREE.DirectionalLight(0xffffff, .55); sol.position.set(10, 25, 10); s.add(sol);
+
+  const L = (g, c, x, y, z) => { const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: c })); m.position.set(x, y, z); s.add(m); return m; };
+  const tag = (txt, color, px, h, x, y, z) => {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 128;
+    const g = c.getContext('2d'); g.font = 'bold ' + px + 'px Georgia'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillStyle = color; g.fillText(txt, 256, 64);
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false }));
+    sp.scale.set(h * 4, h, 1); sp.position.set(x, y, z); s.add(sp);
+  };
+
+  L(new THREE.BoxGeometry(42, .4, 46), 0x3a2547, 0, -.2, 6);
+  L(new THREE.BoxGeometry(14, .12, 8), 0xecc872, 0, .06, -8);
+  tag('Pista de baile', '#2b1a38', 54, 1.6, 0, .6, -8);
+  L(new THREE.BoxGeometry(11, .9, 2), 0xe88fb4, 0, .45, -14);
+  tag('Mesa de honor', '#ffffff', 54, 1.6, 0, 2, -14);
+  tag('Entrada', '#bfaecb', 54, 1.6, 0, .6, 26);
+
+  const mesaG = new THREE.CylinderGeometry(1.6, 1.6, .9, 32);
+  const silG = new THREE.BoxGeometry(.7, .8, .7);
+  const mias = new Set(mesas), anillos = [];
+  const centros = {};
+  for (let i = 0; i < 20; i++) {
+    const n = i + 1, x = (i % 5 - 2) * 6.5, z = Math.floor(i / 5) * 6.5, m = mias.has(n);
+    centros[n] = new THREE.Vector3(x, 0, z);
+    L(mesaG, m ? 0xecc872 : 0x84738f, x, .45, z);
+    for (let k = 0; k < 10; k++) {
+      const a = k / 10 * Math.PI * 2;
+      L(silG, m ? 0xe88fb4 : 0x56465f, x + 2.4 * Math.cos(a), .4, z + 2.4 * Math.sin(a));
+    }
+    tag(String(n), m ? '#ffe9a8' : '#e7dcee', 96, m ? 2.6 : 1.7, x, m ? 3 : 2, z);
+    if (m) {
+      const ring = new THREE.Mesh(new THREE.RingGeometry(3.3, 3.8, 48), new THREE.MeshBasicMaterial({ color: 0xecc872, transparent: true, side: THREE.DoubleSide }));
+      ring.rotation.x = -Math.PI / 2; ring.position.set(x, .08, z); s.add(ring); anillos.push(ring);
+    }
+  }
+
+  const general = new THREE.Vector3(0, 0, 6), tgt = general.clone();
+  let goalT = general.clone(), goalR = 40, rad = 40, th = 0, ph = .95, auto = true;
+  const lugar = () => cam.position.set(tgt.x + rad * Math.sin(ph) * Math.sin(th), tgt.y + rad * Math.cos(ph), tgt.z + rad * Math.sin(ph) * Math.cos(th)) && cam.lookAt(tgt);
+  const pts = new Map(); let dist0 = 0;
+  const cv = r.domElement;
+  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, e); auto = false; if (pts.size === 2) dist0 = dist(); });
+  cv.addEventListener('pointerup', e => pts.delete(e.pointerId));
+  cv.addEventListener('pointercancel', e => pts.delete(e.pointerId));
+  cv.addEventListener('pointermove', e => {
+    const p = pts.get(e.pointerId); if (!p) return;
+    if (pts.size === 1) { th -= (e.clientX - p.clientX) * .008; ph = Math.min(1.45, Math.max(.3, ph - (e.clientY - p.clientY) * .008)); pts.set(e.pointerId, e); }
+    else { pts.set(e.pointerId, e); const d = dist(); goalR = rad = Math.min(60, Math.max(14, rad * dist0 / d)); dist0 = d; }
+  });
+  const dist = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1; };
+  cv.addEventListener('wheel', e => { e.preventDefault(); auto = false; goalR = Math.min(60, Math.max(14, goalR + e.deltaY * .03)); }, { passive: false });
+
+  $('vMia').onclick = () => { const t = centros[mesas[0]]; if (t) { goalT = t.clone(); goalR = 18; auto = false; } };
+  $('vTodo').onclick = () => { goalT = general.clone(); goalR = 40; };
+  addEventListener('resize', () => { r.setSize(el.clientWidth, el.clientHeight); cam.aspect = el.clientWidth / el.clientHeight; cam.updateProjectionMatrix(); });
+
+  if (mesas.length) { goalT = centros[mesas[0]].clone(); goalR = 24; }
+  const reducir = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  (function loop(t) {
+    requestAnimationFrame(loop);
+    tgt.lerp(goalT, .06); rad += (goalR - rad) * .06;
+    if (auto && !reducir) th += .0015;
+    const o = reducir ? .8 : .55 + .35 * Math.sin(t * .003);
+    anillos.forEach(a => a.material.opacity = o);
+    lugar(); r.render(s, cam);
+  })(0);
+}
+</script>
+</body></html>
