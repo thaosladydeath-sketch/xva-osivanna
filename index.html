@@ -1,90 +1,88 @@
 <!DOCTYPE html>
-<html lang="es"><head><base target="_top"><meta charset="utf-8">
+<html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mis XV años</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#1b1026;--card:#2b1a38;--oro:#ecc872;--rosa:#e88fb4;--txt:#f7eef9;--sub:#bfaecb}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at top,#3a2050,var(--bg) 60%);color:var(--txt);font-family:Georgia,'Times New Roman',serif;line-height:1.6;text-align:center;min-height:100vh}
-main{max-width:720px;margin:0 auto;padding:0 18px 60px}
-.hero{padding:56px 0 24px}
-.hero small{color:var(--sub);font-size:1.05rem;letter-spacing:.04em}
-.hero h1{font-size:clamp(3.2rem,15vw,5.6rem);font-weight:400;font-style:italic;margin:.1em 0;color:var(--oro);line-height:1}
-.hero p{margin:.2em 0;color:var(--sub)}
-.hero b{color:var(--txt);font-weight:400}
-.card{background:var(--card);border:1px solid #ecc87244;border-radius:18px;padding:26px 22px;margin:22px 0}
-.card h2{margin:0 0 6px;font-weight:400;font-size:1.6rem}
-.dato{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}
-.dato span{background:#ffffff12;border-radius:999px;padding:6px 16px;font-size:.98rem}
-.dato strong{color:var(--oro);font-weight:700}
-select{font:inherit;font-size:1.1rem;padding:10px 14px;border-radius:10px;border:1px solid var(--oro);background:var(--bg);color:var(--txt);margin:8px 0 16px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-button{font:inherit;font-size:1.05rem;padding:13px 24px;border-radius:999px;border:1px solid var(--oro);background:transparent;color:var(--txt);cursor:pointer}
-button.si{background:var(--oro);color:#2a1630;font-weight:700}
-button:focus-visible{outline:3px solid var(--rosa);outline-offset:2px}
-button:disabled{opacity:.5;cursor:wait}
-#estado{min-height:1.6em;margin-top:14px;color:var(--oro)}
-#c{width:100%;height:min(62vh,480px);border-radius:14px;overflow:hidden;touch-action:none;cursor:grab;background:#1b1026;margin-top:10px}
-#c canvas{display:block}
-.vistas{margin-top:12px}
-.vistas button{padding:9px 18px;font-size:.95rem;margin:4px}
-.nota{color:var(--sub);font-size:.92rem}
-#error{display:none}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+:root{--bg:#fbf4ef;--rosa:#e7b5b9;--rosa2:#b76e79;--oro:#b8934a;--txt:#5a3e42;--sub:#8a7075}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:'Cormorant Garamond',Georgia,serif;font-size:1.2rem;line-height:1.6;text-align:center}
+h1,h2,h3{font-family:'Great Vibes','Brush Script MT',cursive;font-weight:400;margin:0}
+h2{font-size:clamp(2.6rem,11vw,3.6rem);line-height:1.1;margin-bottom:12px;color:var(--rosa2)}
+h3{font-size:2.2rem;color:var(--oro);margin-bottom:6px}
+section{max-width:620px;margin:0 auto;padding:50px 22px}
+.hero{max-width:none;min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;background:linear-gradient(#e7b5b9,#b76e79) center/cover;text-shadow:0 2px 12px #0006}
+.hero small{letter-spacing:.3em;text-transform:uppercase;font-size:.95rem}
+.hero h1{font-size:clamp(4.5rem,24vw,8rem);line-height:1.1}
+.cd{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.cd div{background:#ffffff33;border-radius:12px;padding:8px 10px;min-width:64px}
+.cd b{display:block;font-size:1.8rem}.cd span{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase}
+.card{background:#fff;border-radius:18px;padding:24px 18px;box-shadow:0 6px 24px #b76e7922;margin:16px 0}
+.btn,button{display:inline-block;padding:12px 26px;border-radius:999px;background:var(--rosa2);color:#fff;text-decoration:none;border:1px solid var(--rosa2);font:inherit;cursor:pointer;margin:6px}
+button.no{background:transparent;color:var(--rosa2)}
+button:disabled{opacity:.5}
+.btn:focus-visible,button:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
+iframe{width:100%;height:210px;border:0;border-radius:12px;margin:10px 0}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:340px;margin:0 auto;font-size:1.05rem}
+.cal i{font-style:normal;color:var(--oro);font-size:.9rem}.cal .d{background:var(--rosa2);color:#fff;border-radius:50%}
+.dato span{display:inline-block;background:#f5e3e4;border-radius:999px;padding:4px 14px;margin:4px}
+select{font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--rosa2);margin:8px 0 14px}
+#c{width:100%;height:min(62vh,480px);border-radius:14px;overflow:hidden;touch-action:none;cursor:grab;background:#1b1026}
+#c canvas{display:block}.nota{color:var(--sub);font-size:1rem}
+#gal img{width:100%;border-radius:14px;margin:8px 0;display:block}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}.rv.v{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 </style></head>
-<body><main>
-<section class="hero">
-  <small>Te invito a celebrar mis quince años</small>
-  <h1 id="q"></h1>
-  <p><b id="fecha"></b> a las <b id="hora"></b></p>
-  <p id="lugar"></p>
-</section>
-
-<p id="cargando" class="nota">Cargando tu invitación…</p>
-
-<section id="error" class="card">
-  <h2>No encontramos tu invitación</h2>
-  <p class="nota">Revisa que el link esté completo, tal como te lo enviaron. Si el problema sigue, escríbenos.</p>
-</section>
-
-<section id="inv" class="card" style="display:none">
-  <h2 id="hola"></h2>
-  <div class="dato">
-    <span>Boletos asignados: <strong id="nb"></strong></span>
-    <span id="mesasTxt"></span>
-  </div>
-  <label for="num">¿Cuántos boletos usarás?</label><br>
-  <select id="num"></select>
-  <div class="btns">
-    <button class="si" id="bsi">Sí asistiré</button>
-    <button id="bno">No podré asistir</button>
-  </div>
-  <div id="estado" role="status"></div>
-</section>
-
-<section id="salonSec" class="card" style="display:none">
-  <h2>Tu lugar en el salón</h2>
-  <p class="nota">Arrastra para girar y usa la rueda o dos dedos para acercar. Tus mesas están en dorado.</p>
-  <div id="c"></div>
-  <div class="vistas">
-    <button id="vMia">Ir a mi mesa</button>
-    <button id="vTodo">Vista general</button>
-  </div>
-</section>
-</main>
+<body>
+<header class="hero" id="hero">
+  <small>Mis quince años</small><h1 id="q"></h1><p id="fechaTxt"></p>
+  <div class="cd" id="cd"></div><p id="saludo"></p>
+</header>
+<section class="rv"><h2>Mis XV años</h2>
+  <p>Hay momentos que se guardan en el corazón para siempre, y quiero vivir este contigo.</p>
+  <div class="card"><div class="cal" id="cal"></div></div>
+  <a class="btn" id="addCal" target="_blank" rel="noopener">Agregar a mi calendario</a></section>
+<section class="rv" id="bend" hidden></section>
+<section class="rv" id="galSec" hidden><div id="gal"></div></section>
+<section class="rv"><h2>¿Dónde?</h2>
+  <div class="card" id="igl" hidden><h3>Ceremonia</h3><p id="iglTxt"></p><iframe id="iglMap" loading="lazy" title="Mapa de la ceremonia"></iframe><a class="btn" id="iglBtn" target="_blank" rel="noopener">Ver en Google Maps</a></div>
+  <div class="card"><h3>Recepción</h3><p id="salTxt"></p><iframe id="salMap" loading="lazy" title="Mapa de la recepción"></iframe><a class="btn" id="salBtn" target="_blank" rel="noopener">Ver en Google Maps</a></div></section>
+<section class="rv" id="vest" hidden><h2>Código de vestimenta</h2><p id="vestTxt"></p></section>
+<section class="rv" id="subir" hidden><h2>¡Toma muchas fotos!</h2><p>Comparte tus mejores momentos de la fiesta con nosotros.</p><a class="btn" id="subirBtn" target="_blank" rel="noopener">Subir mis fotos</a></section>
+<section class="rv" id="reg" hidden><h2>Sugerencia de regalo</h2><p id="regTxt"></p></section>
+<section class="rv" id="rsvp"><h2>Confirmación de asistencia</h2>
+  <p id="cargando" class="nota">Cargando tu invitación…</p>
+  <div id="error" class="card" hidden><h3>No encontramos tu invitación</h3><p class="nota">Revisa que el link esté completo, tal como te lo enviaron.</p></div>
+  <div id="inv" class="card" hidden>
+    <h3 id="hola"></h3>
+    <div class="dato"><span>Boletos asignados: <b id="nb"></b></span><span id="mesasTxt"></span></div>
+    <label for="num">¿Cuántos boletos usarás?</label><br><select id="num"></select><br>
+    <button id="bsi">Sí asistiré</button><button class="no" id="bno">No podré asistir</button>
+    <div id="estado" role="status" style="min-height:1.6em;margin-top:10px"></div></div>
+  <div id="salonSec" class="card" hidden><h3>Tu lugar en el salón</h3>
+    <p class="nota">Arrastra para girar y usa la rueda o dos dedos para acercar. Tus mesas están en dorado.</p>
+    <div id="c"></div><button id="vMia">Ir a mi mesa</button><button class="no" id="vTodo">Vista general</button></div></section>
+<section class="rv"><h2>Gracias por acompañarme</h2></section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// ====== EDITA AQUÍ los datos de tu evento ======
+// ====== EDITA AQUÍ (lo que dejes vacío "" no se muestra) ======
 const EVENTO = {
-  quinceanera: "Ivanna",
-  fecha: "Viernes 18 de diciembre de 2026",
-  hora: "7:00 p. m.",
-  lugar: "Ex Hacienda de San Agustín · Atlixco, Puebla"
+  nombre: "Ivanna",
+  inicio: "2026-12-18T19:00:00-06:00",
+  fechaTxt: "Viernes 18 de diciembre de 2026",
+  horaTxt: "7:00 p. m.",
+  salon: { nombre: "Ex Hacienda de San Agustín", dir: "Atlixco, Puebla" },
+  iglesia: { nombre: "", dir: "", hora: "" },
+  padres: "", padrinos: "", vestimenta: "", regalo: "",
+  fotosLink: "",   // link del álbum de Google Fotos o carpeta de Drive
+  fotos: []        // por ejemplo ["fotos/1.jpg","fotos/2.jpg"]
 };
-// ===============================================
+// ==============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyBy_FGpgaOn5PmR6qkBuFTJj-Wg_GQcEH4",
   authDomain: "xv-ivanna-aa920.firebaseapp.com",
@@ -94,49 +92,75 @@ const firebaseConfig = {
   appId: "1:347193806636:web:5774f4a26c42300929a689"
 };
 const db = getFirestore(initializeApp(firebaseConfig));
-const CODIGO = (new URLSearchParams(location.search).get('c') || '').trim().toUpperCase();
 const $ = id => document.getElementById(id);
-$('q').textContent = EVENTO.quinceanera;
-$('fecha').textContent = EVENTO.fecha;
-$('hora').textContent = EVENTO.hora;
-$('lugar').textContent = EVENTO.lugar;
-const ref = /^[A-Z0-9-]{3,40}$/.test(CODIGO) ? doc(db, 'invitados', CODIGO) : null;
+const E = EVENTO, maps = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
 
+// ---- Contenido de la invitación ----
+$('q').textContent = E.nombre; $('fechaTxt').textContent = E.fechaTxt + ' · ' + E.horaTxt;
+if (E.fotos[0]) $('hero').style.background = 'linear-gradient(#0003,#0006),url("' + E.fotos[0] + '") center/cover';
+const ini = new Date(E.inicio);
+const tick = () => {
+  let s = Math.max(0, Math.floor((ini - Date.now()) / 1000));
+  const v = [['Días', 86400], ['Horas', 3600], ['Min', 60], ['Seg', 1]].map(([n, k]) => { const x = Math.floor(s / k); s -= x * k; return '<div><b>' + x + '</b><span>' + n + '</span></div>'; });
+  $('cd').innerHTML = v.join('');
+};
+tick(); setInterval(tick, 1000);
+const y = ini.getFullYear(), m = ini.getMonth(), nd = new Date(y, m + 1, 0).getDate(), p = new Date(y, m, 1).getDay();
+$('cal').innerHTML = '<div style="grid-column:1/-1;font-size:1.4rem">' + ini.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' }) + '</div>' +
+  ['D', 'L', 'M', 'M', 'J', 'V', 'S'].map(d => '<i>' + d + '</i>').join('') + '<span></span>'.repeat(p) +
+  Array.from({ length: nd }, (_, i) => '<span' + (i + 1 === ini.getDate() ? ' class="d"' : '') + '>' + (i + 1) + '</span>').join('');
+const f = d => d.toISOString().replace(/[-:]|\.\d{3}/g, '');
+$('addCal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('XV años de ' + E.nombre) + '&dates=' + f(ini) + '/' + f(new Date(+ini + 6 * 36e5)) + '&location=' + encodeURIComponent(E.salon.nombre + ', ' + E.salon.dir);
+const bend = [E.padres && '<p>Con la bendición de Dios y de mis padres</p><p><b>' + E.padres + '</b></p>', E.padrinos && '<p>En compañía de mis padrinos</p><p><b>' + E.padrinos + '</b></p>'].filter(Boolean).join('');
+if (bend) { $('bend').innerHTML = bend; $('bend').hidden = false; }
+if (E.fotos.length > 1) { $('gal').innerHTML = E.fotos.slice(1).map(u => '<img src="' + u + '" alt="Foto de ' + E.nombre + '" loading="lazy">').join(''); $('galSec').hidden = false; }
+const lugar = (pre, nombre, dir, extra) => {
+  const q = nombre + ', ' + dir;
+  $(pre + 'Txt').innerHTML = (extra ? '<b>' + extra + '</b><br>' : '') + nombre + '<br>' + dir;
+  $(pre + 'Map').src = 'https://www.google.com/maps?q=' + encodeURIComponent(q) + '&output=embed';
+  $(pre + 'Btn').href = maps(q);
+};
+lugar('sal', E.salon.nombre, E.salon.dir, E.horaTxt);
+if (E.iglesia.nombre) { lugar('igl', E.iglesia.nombre, E.iglesia.dir, E.iglesia.hora); $('igl').hidden = false; }
+if (E.vestimenta) { $('vestTxt').textContent = E.vestimenta; $('vest').hidden = false; }
+if (E.regalo) { $('regTxt').textContent = E.regalo; $('reg').hidden = false; }
+if (E.fotosLink) { $('subirBtn').href = E.fotosLink; $('subir').hidden = false; }
+const io = new IntersectionObserver(es => es.forEach(x => x.isIntersecting && x.target.classList.add('v')), { threshold: .12 });
+document.querySelectorAll('.rv').forEach(e => io.observe(e));
+
+// ---- Invitado y confirmación ----
+const CODIGO = (new URLSearchParams(location.search).get('c') || '').trim().toUpperCase();
+const ref = /^[A-Z0-9-]{3,40}$/.test(CODIGO) ? doc(db, 'invitados', CODIGO) : null;
 if (!ref) pintar(null);
 else getDoc(ref).then(x => pintar(x.exists() ? x.data() : null))
   .catch(() => { $('cargando').textContent = 'No se pudo cargar. Recarga la página.'; });
 
 function pintar(d) {
-  $('cargando').style.display = 'none';
-  if (!d) { $('error').style.display = 'block'; return; }
+  $('cargando').hidden = true;
+  if (!d) { $('error').hidden = false; return; }
   const mesas = (String(d.mesa || '').match(/\d+/g) || []).map(Number);
   $('hola').textContent = 'Hola, ' + d.nombre;
+  $('saludo').textContent = 'Invitación para ' + d.nombre;
   $('nb').textContent = d.boletos;
-  $('mesasTxt').innerHTML = mesas.length ? (mesas.length > 1 ? 'Mesas: ' : 'Mesa: ') + '<strong>' + mesas.join(', ') + '</strong>' : 'Mesa por asignar';
+  $('mesasTxt').innerHTML = mesas.length ? (mesas.length > 1 ? 'Mesas: ' : 'Mesa: ') + '<b>' + mesas.join(', ') + '</b>' : 'Mesa por asignar';
   const sel = $('num');
   for (let i = 1; i <= d.boletos; i++) sel.add(new Option(i + (i === 1 ? ' boleto' : ' boletos'), i));
   if (d.usados >= 1) sel.value = d.usados;
   mostrarEstado(d.confirmo, d.usados);
-  $('inv').style.display = 'block';
-  $('salonSec').style.display = 'block';
+  $('inv').hidden = false; $('salonSec').hidden = false;
   salon(mesas);
 }
-
 function mostrarEstado(c, n) {
   $('estado').textContent = c === 'Sí' ? 'Confirmaste ' + n + (n == 1 ? ' boleto.' : ' boletos.') + ' Puedes cambiarlo cuando quieras.'
     : c === 'No' ? 'Registramos que no podrás asistir. Si cambias de opinión, vuelve a confirmar.' : '';
 }
-
 async function enviar(asiste) {
   const n = asiste ? Number($('num').value) : 0;
-  $('bsi').disabled = $('bno').disabled = true;
-  $('estado').textContent = 'Guardando…';
+  $('bsi').disabled = $('bno').disabled = true; $('estado').textContent = 'Guardando…';
   try {
     await updateDoc(ref, { confirmo: asiste ? 'Sí' : 'No', usados: n, fecha: serverTimestamp() });
     $('estado').textContent = asiste ? '¡Listo! Confirmamos ' + n + (n == 1 ? ' boleto. Nos vemos en la fiesta.' : ' boletos. Nos vemos en la fiesta.') : 'Gracias por avisarnos. Te vamos a extrañar.';
-  } catch (e) {
-    $('estado').textContent = 'No se pudo guardar. Intenta de nuevo.';
-  }
+  } catch (e) { $('estado').textContent = 'No se pudo guardar. Intenta de nuevo.'; }
   $('bsi').disabled = $('bno').disabled = false;
 }
 $('bsi').onclick = () => enviar(true);
