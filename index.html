@@ -1,249 +1,83 @@
-<!DOCTYPE html>
-<html lang="es"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mis XV años</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mis XV · Ivana</title>
 <style>
-:root{--bg:#fbf4ef;--rosa:#e7b5b9;--rosa2:#b76e79;--oro:#b8934a;--txt:#5a3e42;--sub:#8a7075}
-*{box-sizing:border-box}[hidden]{display:none!important}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--txt);font-family:'Cormorant Garamond',Georgia,serif;font-size:1.2rem;line-height:1.6;text-align:center}
-h1,h2,h3{font-family:'Great Vibes','Brush Script MT',cursive;font-weight:400;margin:0}
-h2{font-size:clamp(2.6rem,11vw,3.6rem);line-height:1.1;margin-bottom:12px;color:var(--rosa2)}
-h3{font-size:2.2rem;color:var(--oro);margin-bottom:6px}
-section{max-width:620px;margin:0 auto;padding:50px 22px}
-.hero{max-width:none;min-height:92vh;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;background:linear-gradient(#e7b5b9,#b76e79) center/cover;text-shadow:0 2px 12px #0006}
-.hero small{letter-spacing:.3em;text-transform:uppercase;font-size:.95rem}
-.hero h1{font-size:clamp(4.5rem,24vw,8rem);line-height:1.1}
-.cd{display:flex;gap:10px;justify-content:center;margin:20px 0}
-.cd div{background:#ffffff33;border-radius:12px;padding:8px 10px;min-width:64px}
-.cd b{display:block;font-size:1.8rem}.cd span{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase}
-.card{background:#fff;border-radius:18px;padding:24px 18px;box-shadow:0 6px 24px #b76e7922;margin:16px 0}
-.btn,button{display:inline-block;padding:12px 26px;border-radius:999px;background:var(--rosa2);color:#fff;text-decoration:none;border:1px solid var(--rosa2);font:inherit;cursor:pointer;margin:6px}
-button.no{background:transparent;color:var(--rosa2)}
-button:disabled{opacity:.5}
-.btn:focus-visible,button:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
-iframe{width:100%;height:210px;border:0;border-radius:12px;margin:10px 0}
-.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;max-width:340px;margin:0 auto;font-size:1.05rem}
-.cal i{font-style:normal;color:var(--oro);font-size:.9rem}.cal .d{background:var(--rosa2);color:#fff;border-radius:50%}
-.dato span{display:inline-block;background:#f5e3e4;border-radius:999px;padding:4px 14px;margin:4px}
-select{font:inherit;padding:8px 12px;border-radius:10px;border:1px solid var(--rosa2);margin:8px 0 14px}
-#c{width:100%;height:min(62vh,480px);border-radius:14px;overflow:hidden;touch-action:none;cursor:grab;background:#1b1026}
-#c canvas{display:block}.nota{color:var(--sub);font-size:1rem}
-#gal img{width:100%;border-radius:14px;margin:8px 0;display:block}
-.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}.rv.v{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
-</style></head>
-<body>
-<header class="hero" id="hero">
-  <small>Mis quince años</small><h1 id="q"></h1><p id="fechaTxt"></p>
-  <div class="cd" id="cd"></div><p id="saludo"></p>
-</header>
-<section class="rv"><h2>Mis XV años</h2>
-  <p>Hay momentos que se guardan en el corazón para siempre, y quiero vivir este contigo.</p>
-  <div class="card"><div class="cal" id="cal"></div></div>
-  <a class="btn" id="addCal" target="_blank" rel="noopener">Agregar a mi calendario</a></section>
-<section class="rv" id="bend" hidden></section>
-<section class="rv" id="galSec" hidden><div id="gal"></div></section>
-<section class="rv"><h2>¿Dónde?</h2>
-  <div class="card" id="igl" hidden><h3>Ceremonia</h3><p id="iglTxt"></p><iframe id="iglMap" loading="lazy" title="Mapa de la ceremonia"></iframe><a class="btn" id="iglBtn" target="_blank" rel="noopener">Ver en Google Maps</a></div>
-  <div class="card"><h3>Recepción</h3><p id="salTxt"></p><iframe id="salMap" loading="lazy" title="Mapa de la recepción"></iframe><a class="btn" id="salBtn" target="_blank" rel="noopener">Ver en Google Maps</a></div></section>
-<section class="rv" id="vest" hidden><h2>Código de vestimenta</h2><p id="vestTxt"></p></section>
-<section class="rv" id="subir" hidden><h2>¡Toma muchas fotos!</h2><p>Comparte tus mejores momentos de la fiesta con nosotros.</p><a class="btn" id="subirBtn" target="_blank" rel="noopener">Subir mis fotos</a></section>
-<section class="rv" id="reg" hidden><h2>Sugerencia de regalo</h2><p id="regTxt"></p></section>
-<section class="rv" id="rsvp"><h2>Confirmación de asistencia</h2>
-  <p id="cargando" class="nota">Cargando tu invitación…</p>
-  <div id="error" class="card" hidden><h3>No encontramos tu invitación</h3><p class="nota">Revisa que el link esté completo, tal como te lo enviaron.</p></div>
-  <div id="inv" class="card" hidden>
-    <h3 id="hola"></h3>
-    <div class="dato"><span>Boletos asignados: <b id="nb"></b></span><span id="mesasTxt"></span></div>
-    <label for="num">¿Cuántos boletos usarás?</label><br><select id="num"></select><br>
-    <button id="bsi">Sí asistiré</button><button class="no" id="bno">No podré asistir</button>
-    <div id="estado" role="status" style="min-height:1.6em;margin-top:10px"></div></div>
-  <div id="salonSec" class="card" hidden><h3>Tu lugar en el salón</h3>
-    <p class="nota">Arrastra para girar y usa la rueda o dos dedos para acercar. Tus mesas están en dorado.</p>
-    <div id="c"></div><button id="vMia">Ir a mi mesa</button><button class="no" id="vTodo">Vista general</button></div></section>
-<section class="rv"><h2>Gracias por acompañarme</h2></section>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// ====== EDITA AQUÍ (lo que dejes vacío "" no se muestra) ======
-const EVENTO = {
-  nombre: "Ivanna",
-  inicio: "2026-12-18T19:00:00-06:00",
-  fechaTxt: "Viernes 18 de diciembre de 2026",
-  horaTxt: "7:00 p. m.",
-  salon: { nombre: "Ex Hacienda de San Agustín", dir: "Atlixco, Puebla" },
-  iglesia: { nombre: "", dir: "", hora: "" },
-  padres: "", padrinos: "", vestimenta: "", regalo: "",
-  fotosLink: "",   // link del álbum de Google Fotos o carpeta de Drive
-  fotos: []        // por ejemplo ["fotos/1.jpg","fotos/2.jpg"]
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5edce;color:#554725;font:17px Georgia,serif;text-align:center}main{max-width:520px;margin:auto;background:#fffdf4;box-shadow:0 0 50px #866c3024}section{padding:46px 24px}h1,h2,p{margin:0 0 14px}h2{font-weight:normal;color:#856525;font-size:32px;text-transform:uppercase}p{line-height:1.55}header{min-height: min(92svh,780px);position:relative;display:grid;align-content:space-between;padding:48px 20px 36px;background:radial-gradient(ellipse at 50% 38%,#fff8d9,transparent 54%),repeating-conic-gradient(from 45deg at 50% 46%,#b99b4126 0 8deg,#fffbea4a 12deg 18deg),#f4e4a6;background-size:cover;background-position:center}header h1{font-size:clamp(68px,18vw,108px);font-family:'Snell Roundhand','Brush Script MT',Georgia,cursive;font-style:italic;font-weight:normal;line-height:1.05}small,.caps{letter-spacing:.2em;text-transform:uppercase}.hero-photo{display:grid;place-items:center;margin:16px auto;width:190px;height:245px;border-radius:100px 100px 6px 6px;border:1px solid #fff9;background:#ffffff40;color:#6c5528}.hero-photo img,.gallery img{width:100%;height:100%;object-fit:cover;border-radius:inherit}.divider{color:#ad883d;display:flex;align-items:center;gap:10px;margin:auto;width:74%;font-size:14px}.divider:before,.divider:after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#c5a958,transparent)}.wreath{width:200px;height:200px;border:1px solid #b39a60;border-radius:50%;margin:0 auto 24px;display:grid;place-items:center;position:relative}.wreath span{position:absolute;color:#b39a60;font-size:48px;background:#fffdf4;line-height:1}.wreath span:first-child{top:-8px;right:6px;transform:rotate(35deg)}.wreath span:last-child{bottom:-8px;left:6px;transform:rotate(215deg)}.wreath h2{margin:0}.card{background:#fff8df;border:1px solid #e9d9a5;border-radius:6px;padding:24px 15px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:18px 0}.days span{display:grid;place-items:center;aspect-ratio:1;font-size:13px}.days .chosen{background:#8e6c2c;color:white;border-radius:50%}a.btn,button{display:inline-block;background:#806021;color:white;padding:12px 18px;border:0;border-radius:4px;text-decoration:none;font:inherit;cursor:pointer}.gallery{display:grid;gap:4px}.gallery div{height:250px;display:grid;place-items:center;background:linear-gradient(135deg,#f0df9e,#faf1cf);color:#6c5528}.gallery div:nth-child(2){height:390px;background:linear-gradient(135deg,#e2e1be,#f7ebc5)}.symbol{font-size:42px;color:#8e6c2c;margin-bottom:10px}.count{display:flex;justify-content:center;gap:15px;margin-top:16px}.count b{display:block;font-size:24px}.count small{font-size:9px}.fixed{position:fixed;right:max(12px,calc((100vw - 498px)/2));z-index:2}.music{top:20px}.up{bottom:16px;border-radius:50%;padding:9px 13px}.date{font-size:48px;line-height:1.2}.muted{font-size:14px}footer{padding:40px 16px;background:#f8edc1}[hidden]{display:none!important}
+.hero-photo,.gallery img{overflow:hidden}.hero-photo img,.gallery img{filter:saturate(.78)}.flower-detail{margin:22px auto 0;width:100%;max-width:310px;height:auto;display:block;border-radius:4px;filter:saturate(.78)}#num{margin:10px 0;padding:8px;font:inherit;color:inherit;background:white;border:1px solid #b99b41;border-radius:4px}.rsvp-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}button:disabled{opacity:.55}</style>
+<main>
+<button class="fixed music" id="music" hidden aria-label="Reproducir música">♫</button>
+<header id="inicio"><div><small>Mis XV años</small><h1>Ivana</h1></div><div class="hero-photo" id="portrait"><img src="casablanca.jpg" alt="Ramo de lirios blancos Casablanca"></div><div><div class="caps" id="month">Fecha por definir</div><div class="date" id="day"></div><div id="year"></div><div class="count" id="count"></div></div></header>
+<div class="divider">✧ ❖ ✧</div>
+<section><div class="wreath"><span>❧</span><h2>Mis XV<br>años</h2><span>❧</span></div><p><i>“Hay momentos inolvidables que se atesoran en el corazón para siempre…”</i></p><img class="flower-detail" src="ramo-blanco.jpg" alt="Ramo de lirios blancos envuelto en papel crema"></section>
+<div class="divider">✧ ❖ ✧</div>
+<section><div class="card"><h2 id="cal-title">Aparta la fecha</h2><div class="days" id="days"></div><p id="cal-placeholder">Próximamente</p><a class="btn" id="calendar" hidden download="XV-Ivana.ics">Agregar a mi calendario</a></div></section>
+<div class="gallery" id="gallery"><div>Foto 1</div><div>Foto 2</div><div>Foto 3</div></div>
+<section><div class="symbol">❀</div><p><i>Con la bendición de Dios<br>y el amor de mis padres</i></p><p id="parents"></p><div class="divider">✧ ❖ ✧</div><br><p><i>En compañía de mi madrina</i></p><div class="symbol">✧</div><p id="sponsor"></p><p>Tenemos el honor de invitarlos<br>a celebrar mis XV años.</p></section>
+<div class="divider">✧ ❖ ✧</div>
+<section><div class="symbol">♧</div><p><i>¡Nos encantará verlos pronto!</i></p><h2>¿Dónde?</h2></section>
+<div id="venues"></div>
+<div class="divider">✧ ❖ ✧</div>
+<section><div class="symbol">♙</div><h2>Código de<br>vestimenta</h2><p id="dress"></p></section>
+<div class="divider">✧ ❖ ✧</div>
+<section><div class="card"><div class="symbol">◎</div><h2>¡Toma muchas fotos!</h2><p>Ayúdame a guardar los recuerdos de esta noche.</p><a class="btn" id="album" hidden>Compartir fotos</a></div></section>
+<section id="confirmacion" hidden><div class="card"><h2>Confirma tu asistencia</h2><p id="cargando" role="status">Cargando tu invitación…</p><p id="error" hidden>Revisa el enlace personalizado que recibiste.</p><div id="inv" hidden><p><strong id="hola"></strong></p><p>Lugares reservados: <strong id="nb"></strong></p><p id="mesasTxt"></p><label for="num">¿Cuántos asistirán?</label><br><select id="num"></select><div class="rsvp-actions"><button id="bsi">Sí, asistiré</button><button id="bno">No podré asistir</button></div><p id="estado" role="status"></p></div></div></section>
+<section id="rsvp" hidden><h2>Confirma tu asistencia</h2><a class="btn" id="whatsapp">Confirmar por WhatsApp</a></section>
+<footer><small>Mis XV años</small><h2>Ivana</h2><i>¡Te espero!</i></footer>
+<a class="btn fixed up" href="#inicio" aria-label="Volver al inicio">⌃</a>
+</main>
+<script src="datos.js"></script>
+<script>
+const byId = id => document.getElementById(id);
+const set = (id,value) => {byId(id).textContent=value};
+const photo = (container,url,label) => {
+  if (!url) return;
+  const img=document.createElement('img'); img.src=url; img.alt=label;
+  container.replaceChildren(img);
 };
-// ==============================================================
-const firebaseConfig = {
-  apiKey: "AIzaSyBy_FGpgaOn5PmR6qkBuFTJj-Wg_GQcEH4",
-  authDomain: "xv-ivanna-aa920.firebaseapp.com",
-  projectId: "xv-ivanna-aa920",
-  storageBucket: "xv-ivanna-aa920.firebasestorage.app",
-  messagingSenderId: "347193806636",
-  appId: "1:347193806636:web:5774f4a26c42300929a689"
-};
-const db = getFirestore(initializeApp(firebaseConfig));
-const $ = id => document.getElementById(id);
-const E = EVENTO, maps = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
-
-// ---- Contenido de la invitación ----
-$('q').textContent = E.nombre; $('fechaTxt').textContent = E.fechaTxt + ' · ' + E.horaTxt;
-if (E.fotos[0]) $('hero').style.background = 'linear-gradient(#0003,#0006),url("' + E.fotos[0] + '") center/cover';
-const ini = new Date(E.inicio);
-const tick = () => {
-  let s = Math.max(0, Math.floor((ini - Date.now()) / 1000));
-  const v = [['Días', 86400], ['Horas', 3600], ['Min', 60], ['Seg', 1]].map(([n, k]) => { const x = Math.floor(s / k); s -= x * k; return '<div><b>' + x + '</b><span>' + n + '</span></div>'; });
-  $('cd').innerHTML = v.join('');
-};
-tick(); setInterval(tick, 1000);
-const y = ini.getFullYear(), m = ini.getMonth(), nd = new Date(y, m + 1, 0).getDate(), p = new Date(y, m, 1).getDay();
-$('cal').innerHTML = '<div style="grid-column:1/-1;font-size:1.4rem">' + ini.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' }) + '</div>' +
-  ['D', 'L', 'M', 'M', 'J', 'V', 'S'].map(d => '<i>' + d + '</i>').join('') + '<span></span>'.repeat(p) +
-  Array.from({ length: nd }, (_, i) => '<span' + (i + 1 === ini.getDate() ? ' class="d"' : '') + '>' + (i + 1) + '</span>').join('');
-const f = d => d.toISOString().replace(/[-:]|\.\d{3}/g, '');
-$('addCal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent('XV años de ' + E.nombre) + '&dates=' + f(ini) + '/' + f(new Date(+ini + 6 * 36e5)) + '&location=' + encodeURIComponent(E.salon.nombre + ', ' + E.salon.dir);
-const bend = [E.padres && '<p>Con la bendición de Dios y de mis padres</p><p><b>' + E.padres + '</b></p>', E.padrinos && '<p>En compañía de mis padrinos</p><p><b>' + E.padrinos + '</b></p>'].filter(Boolean).join('');
-if (bend) { $('bend').innerHTML = bend; $('bend').hidden = false; }
-if (E.fotos.length > 1) { $('gal').innerHTML = E.fotos.slice(1).map(u => '<img src="' + u + '" alt="Foto de ' + E.nombre + '" loading="lazy">').join(''); $('galSec').hidden = false; }
-const lugar = (pre, nombre, dir, extra) => {
-  const q = nombre + ', ' + dir;
-  $(pre + 'Txt').innerHTML = (extra ? '<b>' + extra + '</b><br>' : '') + nombre + '<br>' + dir;
-  $(pre + 'Map').src = 'https://www.google.com/maps?q=' + encodeURIComponent(q) + '&output=embed';
-  $(pre + 'Btn').href = maps(q);
-};
-lugar('sal', E.salon.nombre, E.salon.dir, E.horaTxt);
-if (E.iglesia.nombre) { lugar('igl', E.iglesia.nombre, E.iglesia.dir, E.iglesia.hora); $('igl').hidden = false; }
-if (E.vestimenta) { $('vestTxt').textContent = E.vestimenta; $('vest').hidden = false; }
-if (E.regalo) { $('regTxt').textContent = E.regalo; $('reg').hidden = false; }
-if (E.fotosLink) { $('subirBtn').href = E.fotosLink; $('subir').hidden = false; }
-const io = new IntersectionObserver(es => es.forEach(x => x.isIntersecting && x.target.classList.add('v')), { threshold: .12 });
-document.querySelectorAll('.rv').forEach(e => io.observe(e));
-
-// ---- Invitado y confirmación ----
-const CODIGO = (new URLSearchParams(location.search).get('c') || '').trim().toUpperCase();
-const ref = /^[A-Z0-9-]{3,40}$/.test(CODIGO) ? doc(db, 'invitados', CODIGO) : null;
-if (!ref) pintar(null);
-else getDoc(ref).then(x => pintar(x.exists() ? x.data() : null))
-  .catch(() => { $('cargando').textContent = 'No se pudo cargar. Recarga la página.'; });
-
-function pintar(d) {
-  $('cargando').hidden = true;
-  if (!d) { $('error').hidden = false; return; }
-  const mesas = (String(d.mesa || '').match(/\d+/g) || []).map(Number);
-  $('hola').textContent = 'Hola, ' + d.nombre;
-  $('saludo').textContent = 'Invitación para ' + d.nombre;
-  $('nb').textContent = d.boletos;
-  $('mesasTxt').innerHTML = mesas.length ? (mesas.length > 1 ? 'Mesas: ' : 'Mesa: ') + '<b>' + mesas.join(', ') + '</b>' : 'Mesa por asignar';
-  const sel = $('num');
-  for (let i = 1; i <= d.boletos; i++) sel.add(new Option(i + (i === 1 ? ' boleto' : ' boletos'), i));
-  if (d.usados >= 1) sel.value = d.usados;
-  mostrarEstado(d.confirmo, d.usados);
-  $('inv').hidden = false; $('salonSec').hidden = false;
-  salon(mesas);
+photo(byId('portrait'),datos.portada,'Ivana');
+datos.fotos.forEach((url,index)=>photo(byId('gallery').children[index],url,'Foto de Ivana'));
+set('parents',datos.padres || 'Nombres de los padres');
+set('sponsor',datos.madrina || 'Nombre de la madrina');
+set('dress',datos.vestimenta);
+for (const [title,symbol,venue] of [['Ceremonia','♰',datos.ceremonia],['Recepción','✺',datos.recepcion]]) {
+  const section=document.createElement('section');
+  section.innerHTML='<div class="symbol"></div><h2></h2><p><strong></strong><br><i></i></p><p class="muted"></p><a class="btn" hidden>Ver en Google Maps</a>';
+  section.querySelector('.symbol').textContent=symbol;
+  section.querySelector('h2').textContent=title;
+  section.querySelector('strong').textContent=venue.hora || 'Horario por definir';
+  section.querySelector('i').textContent=venue.lugar || 'Lugar por definir';
+  section.querySelector('.muted').textContent=venue.direccion;
+  if(venue.mapa){const link=section.querySelector('a');link.href=venue.mapa;link.hidden=false;}
+  byId('venues').append(section);
 }
-function mostrarEstado(c, n) {
-  $('estado').textContent = c === 'Sí' ? 'Confirmaste ' + n + (n == 1 ? ' boleto.' : ' boletos.') + ' Puedes cambiarlo cuando quieras.'
-    : c === 'No' ? 'Registramos que no podrás asistir. Si cambias de opinión, vuelve a confirmar.' : '';
+if(datos.album){byId('album').href=datos.album;byId('album').hidden=false;}
+if(datos.whatsapp){byId('whatsapp').href='https://wa.me/'+datos.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent('Hola, quiero confirmar mi asistencia a los XV años de Ivana.');byId('rsvp').hidden=false;}
+if(datos.musica){
+  const audio=new Audio(datos.musica);audio.loop=true;
+  const button=byId('music');button.hidden=false;
+  button.onclick=async()=>{try{if(audio.paused)await audio.play();else audio.pause();button.textContent=audio.paused?'♫':'Ⅱ';button.ariaLabel=audio.paused?'Reproducir música':'Pausar música';}catch{button.ariaLabel='No se pudo reproducir la música';}};
 }
-async function enviar(asiste) {
-  const n = asiste ? Number($('num').value) : 0;
-  $('bsi').disabled = $('bno').disabled = true; $('estado').textContent = 'Guardando…';
-  try {
-    await updateDoc(ref, { confirmo: asiste ? 'Sí' : 'No', usados: n, fecha: serverTimestamp() });
-    $('estado').textContent = asiste ? '¡Listo! Confirmamos ' + n + (n == 1 ? ' boleto. Nos vemos en la fiesta.' : ' boletos. Nos vemos en la fiesta.') : 'Gracias por avisarnos. Te vamos a extrañar.';
-  } catch (e) { $('estado').textContent = 'No se pudo guardar. Intenta de nuevo.'; }
-  $('bsi').disabled = $('bno').disabled = false;
-}
-$('bsi').onclick = () => enviar(true);
-$('bno').onclick = () => enviar(false);
-
-// ====== Salón 3D ======
-function salon(mesas) {
-  const el = $('c');
-  const r = new THREE.WebGLRenderer({ antialias: true });
-  r.setPixelRatio(Math.min(devicePixelRatio, 2));
-  r.setSize(el.clientWidth, el.clientHeight);
-  el.appendChild(r.domElement);
-  const s = new THREE.Scene();
-  s.background = new THREE.Color(0x1b1026);
-  const cam = new THREE.PerspectiveCamera(50, el.clientWidth / el.clientHeight, .1, 200);
-  s.add(new THREE.AmbientLight(0xffffff, .75));
-  const sol = new THREE.DirectionalLight(0xffffff, .55); sol.position.set(10, 25, 10); s.add(sol);
-
-  const L = (g, c, x, y, z) => { const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ color: c })); m.position.set(x, y, z); s.add(m); return m; };
-  const tag = (txt, color, px, h, x, y, z) => {
-    const c = document.createElement('canvas'); c.width = 512; c.height = 128;
-    const g = c.getContext('2d'); g.font = 'bold ' + px + 'px Georgia'; g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.fillStyle = color; g.fillText(txt, 256, 64);
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false }));
-    sp.scale.set(h * 4, h, 1); sp.position.set(x, y, z); s.add(sp);
-  };
-
-  L(new THREE.BoxGeometry(42, .4, 46), 0x3a2547, 0, -.2, 6);
-  L(new THREE.BoxGeometry(14, .12, 8), 0xecc872, 0, .06, -8);
-  tag('Pista de baile', '#2b1a38', 54, 1.6, 0, .6, -8);
-  L(new THREE.BoxGeometry(11, .9, 2), 0xe88fb4, 0, .45, -14);
-  tag('Mesa de honor', '#ffffff', 54, 1.6, 0, 2, -14);
-  tag('Entrada', '#bfaecb', 54, 1.6, 0, .6, 26);
-
-  const mesaG = new THREE.CylinderGeometry(1.6, 1.6, .9, 32);
-  const silG = new THREE.BoxGeometry(.7, .8, .7);
-  const mias = new Set(mesas), anillos = [];
-  const centros = {};
-  for (let i = 0; i < 20; i++) {
-    const n = i + 1, x = (i % 5 - 2) * 6.5, z = Math.floor(i / 5) * 6.5, m = mias.has(n);
-    centros[n] = new THREE.Vector3(x, 0, z);
-    L(mesaG, m ? 0xecc872 : 0x84738f, x, .45, z);
-    for (let k = 0; k < 10; k++) {
-      const a = k / 10 * Math.PI * 2;
-      L(silG, m ? 0xe88fb4 : 0x56465f, x + 2.4 * Math.cos(a), .4, z + 2.4 * Math.sin(a));
-    }
-    tag(String(n), m ? '#ffe9a8' : '#e7dcee', 96, m ? 2.6 : 1.7, x, m ? 3 : 2, z);
-    if (m) {
-      const ring = new THREE.Mesh(new THREE.RingGeometry(3.3, 3.8, 48), new THREE.MeshBasicMaterial({ color: 0xecc872, transparent: true, side: THREE.DoubleSide }));
-      ring.rotation.x = -Math.PI / 2; ring.position.set(x, .08, z); s.add(ring); anillos.push(ring);
-    }
-  }
-
-  const general = new THREE.Vector3(0, 0, 6), tgt = general.clone();
-  let goalT = general.clone(), goalR = 40, rad = 40, th = 0, ph = .95, auto = true;
-  const lugar = () => cam.position.set(tgt.x + rad * Math.sin(ph) * Math.sin(th), tgt.y + rad * Math.cos(ph), tgt.z + rad * Math.sin(ph) * Math.cos(th)) && cam.lookAt(tgt);
-  const pts = new Map(); let dist0 = 0;
-  const cv = r.domElement;
-  cv.addEventListener('pointerdown', e => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, e); auto = false; if (pts.size === 2) dist0 = dist(); });
-  cv.addEventListener('pointerup', e => pts.delete(e.pointerId));
-  cv.addEventListener('pointercancel', e => pts.delete(e.pointerId));
-  cv.addEventListener('pointermove', e => {
-    const p = pts.get(e.pointerId); if (!p) return;
-    if (pts.size === 1) { th -= (e.clientX - p.clientX) * .008; ph = Math.min(1.45, Math.max(.3, ph - (e.clientY - p.clientY) * .008)); pts.set(e.pointerId, e); }
-    else { pts.set(e.pointerId, e); const d = dist(); goalR = rad = Math.min(60, Math.max(14, rad * dist0 / d)); dist0 = d; }
-  });
-  const dist = () => { const [a, b] = [...pts.values()]; return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1; };
-  cv.addEventListener('wheel', e => { e.preventDefault(); auto = false; goalR = Math.min(60, Math.max(14, goalR + e.deltaY * .03)); }, { passive: false });
-
-  $('vMia').onclick = () => { const t = centros[mesas[0]]; if (t) { goalT = t.clone(); goalR = 18; auto = false; } };
-  $('vTodo').onclick = () => { goalT = general.clone(); goalR = 40; };
-  addEventListener('resize', () => { r.setSize(el.clientWidth, el.clientHeight); cam.aspect = el.clientWidth / el.clientHeight; cam.updateProjectionMatrix(); });
-
-  if (mesas.length) { goalT = centros[mesas[0]].clone(); goalR = 24; }
-  const reducir = matchMedia('(prefers-reduced-motion:reduce)').matches;
-  (function loop(t) {
-    requestAnimationFrame(loop);
-    tgt.lerp(goalT, .06); rad += (goalR - rad) * .06;
-    if (auto && !reducir) th += .0015;
-    const o = reducir ? .8 : .55 + .35 * Math.sin(t * .003);
-    anillos.forEach(a => a.material.opacity = o);
-    lugar(); r.render(s, cam);
-  })(0);
+const date=new Date(datos.fecha);
+if(datos.fecha && Number.isFinite(date.getTime())){
+  const [year,month,day]=datos.fecha.slice(0,10).split('-').map(Number);
+  const monthName=new Intl.DateTimeFormat('es-MX',{month:'long',timeZone:'UTC'}).format(new Date(Date.UTC(year,month-1,1)));
+  set('month',monthName);set('day',day);set('year',year);
+  set('cal-title',monthName+' '+year);byId('cal-placeholder').hidden=true;
+  const cells=['L','M','M','J','V','S','D',...Array((new Date(Date.UTC(year,month-1,1)).getUTCDay()+6)%7).fill(''),...Array.from({length:new Date(Date.UTC(year,month,0)).getUTCDate()},(_,i)=>i+1)];
+  for(const value of cells){const span=document.createElement('span');span.textContent=value;if(value===day)span.className='chosen';byId('days').append(span);}
+  const tick=()=>{
+    const seconds=Math.max(0,Math.floor((date-Date.now())/1000));
+    byId('count').innerHTML=[[Math.floor(seconds/86400),'Días'],[Math.floor(seconds/3600)%24,'Horas'],[Math.floor(seconds/60)%60,'Min'],[seconds%60,'Seg']].map(([n,label])=>'<div><b>'+String(n).padStart(2,'0')+'</b><small>'+label+'</small></div>').join('');
+  };tick();setInterval(tick,1000);
+  const stamp=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mis XV Ivana//ES','BEGIN:VEVENT','UID:xv-ivana-'+stamp(date),'DTSTAMP:'+stamp(new Date()),datos.fecha.slice(11,19)==='00:00:00'?'DTSTART;VALUE=DATE:'+datos.fecha.slice(0,10).replaceAll('-',''):'DTSTART:'+stamp(date),'SUMMARY:Mis XV años de Ivana','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  byId('calendar').href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));byId('calendar').hidden=false;
 }
 </script>
-</body></html>
+<script>
+if (new URLSearchParams(location.search).has('c')) {
+  document.getElementById('confirmacion').hidden = false;
+  document.getElementById('rsvp').hidden = true;
+  import('./confirmacion.js').catch(() => {
+    document.getElementById('cargando').textContent = 'No se pudo cargar la confirmación. Recarga la página.';
+  });
+}
+</script></html>
