@@ -27,7 +27,7 @@
 <div class="divider">✧ ❖ ✧</div>
 <section><div class="symbol">♙</div><h2>Código de<br>vestimenta</h2><p id="dress"></p></section>
 <div class="divider">✧ ❖ ✧</div>
-<section><div class="card"><div class="symbol">◎</div><h2>¡Toma muchas fotos!</h2><p>Ayúdame a guardar los recuerdos de esta noche.</p><a class="btn" id="album" hidden>Compartir fotos</a></div></section>
+<section><div class="card"><div class="symbol">◎</div><h2>¡Toma muchas fotos!</h2><p>Ayúdame a guardar los recuerdos de esta noche.</p><button class="btn" type="button" id="publicar-foto" hidden>Publica tu foto</button><input id="foto-fiesta" type="file" accept="image/*" hidden><p id="fotos-estado" role="status"></p><div class="gallery" id="fotos-muro"></div><button class="btn" type="button" id="descargar-fotos">Acceso de administración</button><div class="gallery" id="fotos-descargas"></div></div></section>
 <section id="confirmacion" hidden><div class="card"><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>30 de noviembre</strong>. ¡Te esperamos con mucho cariño!</p><p id="cargando" role="status">Cargando tu invitación…</p><p id="error" hidden>Revisa el enlace personalizado que recibiste.</p><div id="inv" hidden><p><strong id="hola"></strong></p><p>Lugares reservados: <strong id="nb"></strong></p><p id="mesasTxt" style="display:none"></p><label for="num">¿Cuántos asistirán?</label><br><select id="num"></select><div class="rsvp-actions"><button id="bsi">Sí, asistiré</button><button id="bno">No podré asistir</button></div><p id="estado" role="status"></p></div></div></section>
 <section id="rsvp" hidden><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>30 de noviembre</strong>. ¡Te esperamos con mucho cariño!</p><a class="btn" id="whatsapp">Confirmar por WhatsApp</a></section>
 <footer><small>Mis XV años</small><h2>Ivanna Huerta Jiménez</h2><i>¡Te espero!</i></footer>
@@ -51,12 +51,30 @@ for (const [title,symbol,venue] of [['Ceremonia','♰',datos.ceremonia],['Recepc
   if(venue.mapa){const link=section.querySelector('a');link.href=venue.mapa;link.hidden=false;}
   byId('venues').append(section);
 }
-if(datos.album){byId('album').href=datos.album;byId('album').hidden=false;}
 if(datos.whatsapp){byId('whatsapp').href='https://wa.me/'+datos.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent('Hola, quiero confirmar mi asistencia a los XV años de Ivanna Huerta Jiménez.');byId('rsvp').hidden=false;}
 {
   const audio=new Audio("./musica-ivanna.mp3");audio.loop=true;
   const button=byId('music');button.hidden=false;
-  button.onclick=async()=>{try{if(audio.paused)await audio.play();else audio.pause();button.textContent=audio.paused?'♫':'Ⅱ';button.ariaLabel=audio.paused?'Reproducir música':'Pausar música';}catch{button.ariaLabel='No se pudo reproducir la música';}};
+  const syncMusicButton = () => {
+    button.textContent = audio.paused ? '♫' : 'Ⅱ';
+    button.ariaLabel = audio.paused ? 'Reproducir música' : 'Pausar música';
+  };
+  const startMusic = () => audio.play().then(syncMusicButton).catch(() => {
+    button.ariaLabel = 'Reproducir música';
+  });
+  button.onclick = () => {
+    if (audio.paused) void startMusic();
+    else {
+      audio.pause();
+      syncMusicButton();
+    }
+  };
+  const startOnInteraction = event => {
+    document.removeEventListener('click', startOnInteraction, true);
+    if (!button.contains(event.target) && audio.paused) void startMusic();
+  };
+  document.addEventListener('click', startOnInteraction, true);
+  void startMusic();
 }
 const date=new Date(datos.fecha);
 if(datos.fecha && Number.isFinite(date.getTime())){
@@ -83,4 +101,4 @@ if (new URLSearchParams(location.search).has('c')) {
     document.getElementById('cargando').textContent = 'No se pudo cargar la confirmación. Recarga la página.';
   });
 }
-</script></html>
+</script><script type="module" src="./galeria-ivanna.js"></script></html>
