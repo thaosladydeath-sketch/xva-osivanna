@@ -27,7 +27,27 @@ function photoCard(snapshot, download = false) {
   link.href = url;
   link.download = 'XV-Ivanna-' + snapshot.id + '.jpg';
   link.append(image, document.createTextNode('Descargar'));
-  return link;
+  const card = document.createElement('div');
+  const remove = document.createElement('button');
+  remove.type = 'button';
+  remove.className = 'btn';
+  remove.textContent = 'Eliminar foto';
+  remove.onclick = async () => {
+    if (!window.confirm('¿Eliminar esta foto de la galería?')) return;
+    remove.disabled = true;
+    try {
+      const batch = writeBatch(db);
+      batch.delete(snapshot.ref);
+      batch.delete(doc(db, 'permisosFotosFiesta', snapshot.id));
+      await batch.commit();
+      card.remove();
+    } catch {
+      remove.textContent = 'Error al eliminar. Reintentar';
+      remove.disabled = false;
+    }
+  };
+  card.append(link, remove);
+  return card;
 }
 
 onSnapshot(query(photos, orderBy('fecha', 'desc'), limit(24)), snapshot => {
