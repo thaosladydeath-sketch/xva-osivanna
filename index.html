@@ -27,7 +27,7 @@
 <div class="divider">✧ ❖ ✧</div>
 <section><div class="symbol">♙</div><h2>Código de<br>vestimenta</h2><p id="dress"></p></section>
 <div class="divider">✧ ❖ ✧</div>
-<section><div class="card"><div class="symbol">◎</div><h2>¡Toma muchas fotos!</h2><p>Ayúdame a guardar los recuerdos de esta noche.</p><button class="btn" type="button" id="publicar-foto" hidden>Publica tu foto</button><input id="foto-fiesta" type="file" accept="image/*" hidden><p id="fotos-estado" role="status"></p><div class="gallery" id="fotos-muro"></div><button class="btn" type="button" id="descargar-fotos">Acceso de administración</button><div class="gallery" id="fotos-descargas"></div></div></section>
+<section><div class="card"><div class="symbol">◎</div><h2>¡Toma muchas fotos!</h2><p>Ayúdame a guardar los recuerdos de esta noche.</p><button class="btn" type="button" id="publicar-foto" disabled>Publica tu foto</button><input id="foto-fiesta" type="file" accept="image/*" hidden><p id="fotos-horario">Podrás subir fotos el 18 de diciembre a partir de las 7:00 p. m.</p><p id="fotos-estado" role="status"></p><div class="gallery" id="fotos-muro"></div><button class="btn" type="button" id="descargar-fotos" hidden>Acceso de administración</button><div class="gallery" id="fotos-descargas"></div></div></section>
 <section id="confirmacion" hidden><div class="card"><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>30 de noviembre</strong>. ¡Te esperamos con mucho cariño!</p><p id="cargando" role="status">Cargando tu invitación…</p><p id="error" hidden>Revisa el enlace personalizado que recibiste.</p><div id="inv" hidden><p><strong id="hola"></strong></p><p>Lugares reservados: <strong id="nb"></strong></p><p id="mesasTxt" style="display:none"></p><label for="num">¿Cuántos asistirán?</label><br><select id="num"></select><div class="rsvp-actions"><button id="bsi">Sí, asistiré</button><button id="bno">No podré asistir</button></div><p id="estado" role="status"></p></div></div></section>
 <section id="rsvp" hidden><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>30 de noviembre</strong>. ¡Te esperamos con mucho cariño!</p><a class="btn" id="whatsapp">Confirmar por WhatsApp</a></section>
 <footer><small>Mis XV años</small><h2>Ivanna Huerta Jiménez</h2><i>¡Te espero!</i></footer>
@@ -101,4 +101,4 @@ if (new URLSearchParams(location.search).has('c')) {
     document.getElementById('cargando').textContent = 'No se pudo cargar la confirmación. Recarga la página.';
   });
 }
-</script><script type="module" src="./galeria-ivanna.js?v=2"></script></html>
+</script><script type="module" src="./galeria-ivanna.js?v=3"></script></html>
