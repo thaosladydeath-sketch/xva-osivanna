@@ -54,9 +54,30 @@ onSnapshot(query(photos, orderBy('fecha', 'desc'), limit(24)), snapshot => {
   wall.replaceChildren(...snapshot.docs.map(photo => photoCard(photo)));
 }, () => { status.textContent = 'La galería todavía no está disponible.'; });
 
+const uploadOpens = Date.parse('2026-12-18T19:00:00-06:00');
+const adminOpens = Date.parse('2026-12-19T00:00:00-06:00');
+const uploadButton = document.querySelector('#publicar-foto');
+const adminButton = document.querySelector('#descargar-fotos');
+const schedule = document.querySelector('#fotos-horario');
+let validInvitation = false;
+let uploading = false;
+
+function updateAvailability() {
+  const open = Date.now() >= uploadOpens;
+  uploadButton.disabled = !open || !validInvitation || uploading;
+  schedule.textContent = open
+    ? (validInvitation ? '' : 'Abre tu liga personalizada para subir fotos.')
+    : 'Podrás subir fotos el 18 de diciembre a partir de las 7:00 p. m.';
+  schedule.hidden = !schedule.textContent;
+  adminButton.hidden = Date.now() < adminOpens;
+}
+updateAvailability();
+setInterval(updateAvailability, 1000);
+
 if (/^[A-Z0-9-]{3,40}$/.test(code)) {
   getDoc(doc(db, 'invitados', code)).then(snapshot => {
-    document.querySelector('#publicar-foto').hidden = !snapshot.exists();
+    validInvitation = snapshot.exists();
+    updateAvailability();
   }).catch(() => { status.textContent = 'No se pudo verificar tu invitación.'; });
 }
 
@@ -86,9 +107,9 @@ async function compress(file) {
 
 input.addEventListener('change', async () => {
   const file = input.files[0];
-  if (!file) return;
-  const button = document.querySelector('#publicar-foto');
-  button.disabled = true;
+  if (!file || uploadButton.disabled) return;
+  uploading = true;
+  updateAvailability();
   status.textContent = 'Subiendo tu foto…';
   try {
     if (file.size > 20000000) throw new Error('Archivo demasiado grande');
@@ -103,12 +124,14 @@ input.addEventListener('change', async () => {
     status.textContent = 'No se pudo publicar. Prueba con una foto JPG o PNG de hasta 20 MB.';
   } finally {
     input.value = '';
-    button.disabled = false;
+    uploading = false;
+    updateAvailability();
   }
 });
 
-document.querySelector('#publicar-foto').onclick = () => input.click();
-document.querySelector('#descargar-fotos').onclick = async () => {
+uploadButton.onclick = () => input.click();
+adminButton.onclick = async () => {
+  if (Date.now() < adminOpens) return;
   const adminWall = document.querySelector('#fotos-descargas');
   try {
     await signInWithPopup(getAuth(app), new GoogleAuthProvider());
