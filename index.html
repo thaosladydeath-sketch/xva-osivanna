@@ -39,11 +39,11 @@
   #calendar.scroll-reveal{transition-delay:.30s}
   .title-word,.title-letter{display:inline-block}
   .scroll-reveal.is-visible .title-letter{
-    animation:ivanna-letter-in .62s cubic-bezier(.18,.8,.28,1) both;
-    animation-delay:calc(var(--letter-index) * 55ms);
+    animation:ivanna-letter-in .24s cubic-bezier(.18,.8,.28,1) both;
+    animation-delay:calc(var(--letter-index) * 155ms);
   }
   @keyframes ivanna-letter-in{
-    from{opacity:0;transform:translateY(1em) rotate(-12deg) scale(.72)}
+    from{opacity:0;transform:translateY(1.2em) rotate(-16deg) scale(.72)}
     70%{opacity:1;transform:translateY(-.1em) rotate(3deg) scale(1.07)}
     to{opacity:1;transform:none}
   }
@@ -51,14 +51,14 @@
   .divider.scroll-reveal.is-visible::after{
     animation:divider-line-in .5s ease-out both;
   }
-  .divider.scroll-reveal.is-visible::before{transform-origin:right;animation-delay:.56s}
-  .divider.scroll-reveal.is-visible::after{transform-origin:left;animation-delay:.78s}
+  .divider.scroll-reveal.is-visible::before{transform-origin:right;animation-delay:1.44s}
+  .divider.scroll-reveal.is-visible::after{transform-origin:left;animation-delay:1.94s}
   .divider.scroll-reveal.is-visible .divider-mark{
     display:inline-block;
     animation:ivanna-letter-in .48s ease-out both;
   }
-  .divider.scroll-reveal.is-visible .divider-mark:first-child{animation-delay:.18s}
-  .divider.scroll-reveal.is-visible .divider-mark:last-child{animation-delay:.36s}
+  .divider.scroll-reveal.is-visible .divider-mark:first-child{animation-delay:.48s}
+  .divider.scroll-reveal.is-visible .divider-mark:last-child{animation-delay:.96s}
   @keyframes divider-line-in{
     from{opacity:0;transform:scaleX(0)}
     to{opacity:1;transform:scaleX(1)}
