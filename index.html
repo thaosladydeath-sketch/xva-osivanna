@@ -15,8 +15,8 @@
 .ivanna-giro{display:block;position:relative;aspect-ratio:1734/907;transform-style:preserve-3d;transition:transform .9s ease}
 .ivanna-volteado .ivanna-giro{transform:rotateY(180deg)}
 .ivanna-cara{position:absolute;inset:0;border-radius:10px;box-shadow:0 16px 36px #866c3040;backface-visibility:hidden}
-.ivanna-frente{width:100%;height:100%;object-fit:contain}
-.ivanna-destinatario{position:absolute;left:46.5%;right:11.5%;top:80%;z-index:1;text-align:center;color:#533900;font-weight:700;font-size:clamp(11px,2.65vw,21px);line-height:1.12;text-shadow:0 1px 2px #fff8d8;overflow-wrap:anywhere;backface-visibility:hidden}
+.ivanna-frente{display:grid;place-items:center;background:#f4e7b7;border:1px solid #d5ba71}
+.ivanna-destinatario{padding:12%;color:#533900;font-style:italic;font-size:clamp(20px,5vw,42px);overflow-wrap:anywhere}
 .ivanna-reverso{transform:rotateY(180deg);background:#eee0a9;border:1px solid #d5ba71}
 .ivanna-pliegue,.ivanna-solapa{position:absolute;inset:0;border-radius:inherit}
 .ivanna-pliegue{background:linear-gradient(#fff7d1,#f8e8ae);clip-path:polygon(0 100%,50% 30%,100% 100%)}
@@ -84,6 +84,14 @@
   color:#79591e;box-shadow:0 0 28px #fff3b8;
   font:italic clamp(19px,5vw,42px) Georgia,serif;
 }
+.ivanna-tarjeta img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fffdf4;border-radius:inherit}
+.ivanna-boleto{
+  position:absolute;top:28%;left:33%;width:34%;padding:4% 2%;
+  border:1px dashed #b38b3f;border-radius:6px;background:#fff5d4;
+  color:#79591e;font-size:clamp(10px,2.5vw,19px);opacity:0;
+}
+.ivanna-boleto-izq{--boleto-x:-88%;--boleto-giro:-15deg}
+.ivanna-boleto-der{--boleto-x:88%;--boleto-giro:15deg}
 .ivanna-destellos{
   inset:-55% -12% -15%;z-index:2;
   background:radial-gradient(circle at 50% 72%,#fffdf1 0%,#ffdfa1aa 6%,transparent 27%),
@@ -94,14 +102,20 @@
     radial-gradient(circle at 56% 18%,#fffaf0 0 2px,transparent 5px);
 }
 @media(prefers-reduced-motion:no-preference){
-  .ivanna-abierto .ivanna-solapa{backface-visibility:hidden}
   .ivanna-abierto .ivanna-tarjeta{
-    z-index:1;
+    z-index:2;
     animation:ivanna-tarjeta-sale 1.15s .55s ease-out both;
   }
+  .ivanna-abierto .ivanna-boleto{z-index:1;animation:ivanna-boleto-sale .8s .95s ease-out both}
+  .ivanna-abierto .ivanna-boleto-der{animation-delay:1.1s}
   .ivanna-abierto .ivanna-destellos{animation:ivanna-brillo 1.8s ease-out both}
   #ivanna-entrada.ivanna-salida{animation:ivanna-sobre-sale .55s ease-in both}
   #ivanna-invitacion.ivanna-llegada{animation:ivanna-invitacion-entra .8s ease-out both}
+  @keyframes ivanna-boleto-sale{
+    from{opacity:0;transform:translate(0,0)}
+    30%{opacity:1}
+    to{opacity:1;transform:translate(var(--boleto-x),-58%) rotate(var(--boleto-giro))}
+  }
   @keyframes ivanna-tarjeta-sale{
     from{opacity:0;transform:translateY(0) scale(.9)}
     20%{opacity:1}
@@ -120,10 +134,16 @@
 <div id="ivanna-entrada">
   <button id="ivanna-sobre" type="button" aria-label="Toca para girar el sobre">
     <span class="ivanna-giro" aria-hidden="true">
-      <img class="ivanna-cara ivanna-frente" alt="" src="./portada-ivanna.png">
-      <span id="ivanna-destinatario" class="ivanna-destinatario" hidden></span>
+      <span class="ivanna-cara ivanna-frente">
+        <span id="ivanna-destinatario" class="ivanna-destinatario">Para ti y tu familia</span>
+      </span>
       <span class="ivanna-cara ivanna-reverso">
-        <span class="ivanna-tarjeta">Mis XV años<br>Ivanna</span>
+        <span class="ivanna-tarjeta">
+          <span>Mis XV años<br>Ivanna</span>
+          <img src="./portada-ivanna.png" alt="" onerror="this.hidden=true">
+        </span>
+        <span class="ivanna-boleto ivanna-boleto-izq">BOLETO<br>Mis XV</span>
+        <span class="ivanna-boleto ivanna-boleto-der">BOLETO<br>Ivanna</span>
         <span class="ivanna-pliegue"></span><span class="ivanna-solapa"></span>
         <span class="ivanna-destellos"></span>
         <span class="ivanna-sello">I</span><span class="ivanna-abre">Ábreme</span>
