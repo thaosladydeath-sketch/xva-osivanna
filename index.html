@@ -76,6 +76,41 @@
     transform:none;
   }
 }
+
+.ivanna-tarjeta,.ivanna-destellos{position:absolute;pointer-events:none;opacity:0}
+.ivanna-tarjeta{
+  inset:8% 13% 16%;display:grid;place-content:center;border:1px solid #bc9a53;
+  border-radius:6px;background:linear-gradient(135deg,#fffdf4,#f5e5b1);
+  color:#79591e;box-shadow:0 0 28px #fff3b8;
+  font:italic clamp(19px,5vw,42px) Georgia,serif;
+}
+.ivanna-destellos{
+  inset:-55% -12% -15%;z-index:2;
+  background:radial-gradient(circle at 50% 72%,#fffdf1 0%,#ffdfa1aa 6%,transparent 27%),
+    radial-gradient(circle at 25% 53%,#fffaf0 0 2px,transparent 5px),
+    radial-gradient(circle at 67% 29%,#d9af53 0 2px,transparent 5px),
+    radial-gradient(circle at 36% 34%,#e6c477 0 3px,transparent 6px),
+    radial-gradient(circle at 79% 54%,#fffaf0 0 3px,transparent 6px),
+    radial-gradient(circle at 56% 18%,#fffaf0 0 2px,transparent 5px);
+}
+@media(prefers-reduced-motion:no-preference){
+  .ivanna-abierto .ivanna-tarjeta{animation:ivanna-tarjeta-sale 1.45s .28s ease-out both}
+  .ivanna-abierto .ivanna-destellos{animation:ivanna-brillo 1.8s ease-out both}
+  #ivanna-entrada.ivanna-salida{animation:ivanna-sobre-sale .55s ease-in both}
+  #ivanna-invitacion.ivanna-llegada{animation:ivanna-invitacion-entra .8s ease-out both}
+  @keyframes ivanna-tarjeta-sale{
+    from{opacity:0;transform:translateY(0) scale(.9)}
+    20%{opacity:1}
+    to{opacity:1;transform:translateY(-70%) scale(1)}
+  }
+  @keyframes ivanna-brillo{
+    0%,100%{opacity:0;transform:scale(.75)}
+    27%{opacity:1}
+    65%{opacity:.8;transform:translateY(-12%) scale(1.15)}
+  }
+  @keyframes ivanna-sobre-sale{to{opacity:0;transform:scale(1.035)}}
+  @keyframes ivanna-invitacion-entra{from{opacity:0}}
+}
 </style>
 
 <div id="ivanna-entrada">
@@ -84,7 +119,9 @@
       <img class="ivanna-cara ivanna-frente" alt="" src="./portada-ivanna.png">
       <span id="ivanna-destinatario" class="ivanna-destinatario" hidden></span>
       <span class="ivanna-cara ivanna-reverso">
+        <span class="ivanna-tarjeta">Mis XV años<br>Ivanna</span>
         <span class="ivanna-pliegue"></span><span class="ivanna-solapa"></span>
+        <span class="ivanna-destellos"></span>
         <span class="ivanna-sello">I</span><span class="ivanna-abre">Ábreme</span>
       </span>
     </span>
@@ -169,13 +206,17 @@ document.getElementById('abrir-mesa').addEventListener('click', () => {
     state = 'opening';
     envelope.classList.add('ivanna-abierto');
     void startMusic();
+    if (!reducedMotion.matches) {
+      setTimeout(() => entry.classList.add('ivanna-salida'), 1800);
+    }
     setTimeout(() => {
       entry.hidden = true;
+      invitation.classList.add('ivanna-llegada');
       invitation.hidden = false;
       const heading = document.querySelector('#inicio h1');
       heading.setAttribute('tabindex', '-1');
       heading.focus({preventScroll:true});
-    }, reducedMotion.matches ? 0 : 550);
+    }, reducedMotion.matches ? 0 : 2350);
   });
 }
 </script>
