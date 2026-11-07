@@ -94,7 +94,11 @@
     radial-gradient(circle at 56% 18%,#fffaf0 0 2px,transparent 5px);
 }
 @media(prefers-reduced-motion:no-preference){
-  .ivanna-abierto .ivanna-tarjeta{animation:ivanna-tarjeta-sale 1.45s .28s ease-out both}
+  .ivanna-abierto .ivanna-solapa{backface-visibility:hidden}
+  .ivanna-abierto .ivanna-tarjeta{
+    z-index:1;
+    animation:ivanna-tarjeta-sale 1.15s .55s ease-out both;
+  }
   .ivanna-abierto .ivanna-destellos{animation:ivanna-brillo 1.8s ease-out both}
   #ivanna-entrada.ivanna-salida{animation:ivanna-sobre-sale .55s ease-in both}
   #ivanna-invitacion.ivanna-llegada{animation:ivanna-invitacion-entra .8s ease-out both}
