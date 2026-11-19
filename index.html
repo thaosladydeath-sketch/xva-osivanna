@@ -210,21 +210,21 @@ header>div>small,footer small,main small.script{font-size:40px}
 #fotos-horario,#fotos-estado{font-size:22px;line-height:1.45;text-wrap:balance;margin-top:8px}
 section .card p{font-size:23px}
 /* Ambientación del sobre: salón nocturno con candelabros, velas, piso reflejante y destellos */
-#ivanna-entrada{position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 50% at 50% 30%,#35639f 0%,#1a3a6e 42%,#0a1431 100%)}
+#ivanna-entrada{position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 50% at 50% 30%,#8c3a58 0%,#5b1f3b 42%,#240a18 100%)}
 #ivanna-sobre{position:relative;z-index:2;color:#f3e2a8}
 #ivanna-pista{color:#f3e2a8;text-shadow:0 2px 10px #000b}
-#ivanna-sobre::before{content:"";position:absolute;left:-8%;right:-8%;top:-14%;bottom:-6%;z-index:-1;background:radial-gradient(ellipse 50% 46% at 50% 48%,#ffd98a88,#8cc4ff44 50%,transparent 72%);filter:blur(10px)}
-#ivanna-sobre::after{content:"";position:absolute;left:6%;right:6%;bottom:6%;height:14%;z-index:-1;background:radial-gradient(ellipse,#8cc4ffaa,transparent 70%);filter:blur(10px)}
+#ivanna-sobre::before{content:"";position:absolute;left:-8%;right:-8%;top:-14%;bottom:-6%;z-index:-1;background:radial-gradient(ellipse 50% 46% at 50% 48%,#ffd98a88,#ff9db844 50%,transparent 72%);filter:blur(10px)}
+#ivanna-sobre::after{content:"";position:absolute;left:6%;right:6%;bottom:6%;height:14%;z-index:-1;background:radial-gradient(ellipse,#ffb0c8aa,transparent 70%);filter:blur(10px)}
 .amb{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb *{position:absolute;pointer-events:none;display:block}
-.amb-ice{left:50%;top:4%;width:70%;height:44%;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 62%,#bcdcffbb,#6aa0dc55 45%,transparent 72%);filter:blur(18px);animation:amb-respira 7s ease-in-out infinite}
+.amb-ice{left:50%;top:4%;width:70%;height:44%;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 62%,#ffd6e4aa,#d9708f55 45%,transparent 72%);filter:blur(18px);animation:amb-respira 7s ease-in-out infinite}
 .amb-cand{top:6%;width:15%;max-width:150px;height:60%;filter:blur(2.5px);border-radius:46% 46% 6px 6px/5% 5% 0 0;background:linear-gradient(90deg,#34240e,#b98c3c 28%,#f6de97 50%,#b4863a 72%,#34240e);box-shadow:0 0 46px #e9c36a55}
 .amb-cand::before{content:"";left:-35%;right:-35%;top:-9%;height:11%;background:radial-gradient(circle at 12% 70%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 38% 40%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 62% 40%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 88% 70%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px)}
 .amb-cand.l{left:-4%}.amb-cand.r{right:-4%}
 .amb-vela{top:30%;width:9px;height:7.5%;min-height:34px;border-radius:2px;background:linear-gradient(90deg,#d9d2bd,#fffdf3 50%,#d9d2bd)}
 .amb-vela::before{content:"";left:50%;top:-18px;width:12px;height:20px;transform:translateX(-50%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 70%,#fff9e0,#ffd06a 55%,transparent 75%);box-shadow:0 0 22px 8px #ffcf6e88;animation:amb-llama 2.4s ease-in-out infinite}
-.amb-suelo{left:0;right:0;bottom:0;height:44%;background:linear-gradient(#0e2550 0%,#1d4a86 28%,#0b1d42 100%);border-top:1px solid #9bc6f055}
-.amb-suelo::before{content:"";left:0;right:0;top:0;height:100%;background:radial-gradient(ellipse 38% 55% at 50% 12%,#ffd98a66,transparent 72%),radial-gradient(ellipse 60% 40% at 50% 100%,#6eaaf044,transparent 70%)}
+.amb-suelo{left:0;right:0;bottom:0;height:44%;background:linear-gradient(#3b0f26 0%,#702749 28%,#1e0814 100%);border-top:1px solid #f0a8c455}
+.amb-suelo::before{content:"";left:0;right:0;top:0;height:100%;background:radial-gradient(ellipse 38% 55% at 50% 12%,#ffd98a66,transparent 72%),radial-gradient(ellipse 60% 40% at 50% 100%,#f08aa844,transparent 70%)}
 .amb-bokeh{border-radius:50%;filter:blur(1px);animation:amb-flota 9s ease-in-out infinite}
 .amb-gl{border-radius:50%;background:#fff;box-shadow:0 0 6px 1px #cfe6ff;animation:amb-twinkle 3s ease-in-out infinite}
 @keyframes amb-respira{50%{opacity:.7;transform:translateX(-50%) scale(1.04)}}
@@ -232,10 +232,31 @@ section .card p{font-size:23px}
 @keyframes amb-twinkle{0%,100%{opacity:.15;transform:translateY(0)}50%{opacity:1;transform:translateY(-10px)}}
 @keyframes amb-flota{50%{transform:translateY(-14px);opacity:.35}}
 @media(prefers-reduced-motion:reduce){.amb *,.amb-vela::before{animation:none!important}}
+
+.amb-cand::before,.amb-vela::before,.amb-suelo::before,.amb-suelo::after{position:absolute}
+.ivanna-abre{color:#6b4d12!important;text-shadow:0 1px 0 #fff8d8}
+.amb-cand{background:
+ radial-gradient(ellipse 120% 3% at 50% 14%,#fff3c0aa,transparent 70%),
+ radial-gradient(ellipse 130% 4% at 50% 32%,#fff3c0aa,transparent 70%),
+ radial-gradient(ellipse 150% 5% at 50% 58%,#fff3c0aa,transparent 70%),
+ linear-gradient(90deg,#34240e,#b98c3c 28%,#f6de97 50%,#b4863a 72%,#34240e)}
+.amb-ref{bottom:0;width:15%;max-width:150px;height:32%;filter:blur(7px);opacity:.55;background:linear-gradient(#f2d27a,transparent)}
+.amb-ref.l{left:-4%}.amb-ref.r{right:-4%}
+.amb-suelo::after{content:"";left:18%;right:18%;top:6%;height:30%;background:radial-gradient(ellipse,#ffe3a0aa,transparent 68%);filter:blur(12px);animation:amb-respira2 5s ease-in-out infinite}
+.amb-gl{width:4px;height:4px;background:#fff;box-shadow:0 0 8px 2px #ffe4c4cc,0 0 2px 1px #fff}
+.amb-bokeh{filter:blur(.6px);box-shadow:0 0 14px 3px currentColor}
+.ivanna-sello{isolation:isolate}
+.ivanna-sello::before{content:"";position:absolute;left:50%;top:50%;width:420%;height:420%;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;background:repeating-conic-gradient(from 0deg,#fff0b0dd 0 2.5deg,transparent 2.5deg 11deg);-webkit-mask:radial-gradient(circle,transparent 12%,#000 20%,transparent 64%);mask:radial-gradient(circle,transparent 12%,#000 20%,transparent 64%);animation:amb-rayos 14s linear infinite}
+.ivanna-sello::after{content:"";position:absolute;left:50%;top:50%;width:260%;height:260%;transform:translate(-50%,-50%);z-index:-2;border-radius:50%;background:radial-gradient(circle,#ffe39acc,#ffc65a55 40%,transparent 70%);animation:amb-respira2 3s ease-in-out infinite}
+@keyframes amb-rayos{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes amb-respira2{50%{opacity:.55}}
+#amb-particulas{inset:0}
+.amb-bokeh{background:radial-gradient(circle at 50% 50%,#fff 0,var(--c) 38%,transparent 72%)!important;box-shadow:0 0 18px 5px var(--c)!important;filter:none!important;mix-blend-mode:screen;opacity:.9}
+@keyframes amb-flota{0%,100%{transform:translateY(0) scale(1);opacity:.9}50%{transform:translateY(-16px) scale(1.15);opacity:.55}}
 </style>
 
 <div id="ivanna-entrada">
-  <div class="amb" aria-hidden="true"><div class="amb-ice"></div><i class="amb-cand l"></i><i class="amb-cand r"></i><i class="amb-vela" style="left:27%"></i><i class="amb-vela" style="left:33%;top:28%"></i><i class="amb-vela" style="left:66%;top:28%"></i><i class="amb-vela" style="left:72%"></i><div class="amb-suelo"></div><div id="amb-particulas"></div></div>
+  <div class="amb" aria-hidden="true"><div class="amb-ice"></div><i class="amb-cand l"></i><i class="amb-cand r"></i><i class="amb-ref l"></i><i class="amb-ref r"></i><i class="amb-vela" style="left:27%"></i><i class="amb-vela" style="left:33%;top:28%"></i><i class="amb-vela" style="left:66%;top:28%"></i><i class="amb-vela" style="left:72%"></i><div class="amb-suelo"></div><div id="amb-particulas"></div></div>
   <button id="ivanna-sobre" type="button" aria-label="Toca para girar el sobre">
     <span class="ivanna-giro" aria-hidden="true">
       <span class="ivanna-cara ivanna-frente">
@@ -326,6 +347,7 @@ section .card p{font-size:23px}
   envelope.addEventListener('click', () => {
     if (state === 'front') {
       state = 'turning';
+      void startMusic();
       envelope.classList.add('ivanna-volteado');
       document.getElementById('ivanna-pista').textContent = '';
       setTimeout(() => {
@@ -337,7 +359,7 @@ section .card p{font-size:23px}
     if (state !== 'back') return;
     state = 'opening';
     envelope.classList.add('ivanna-abierto');
-    void startMusic();
+    if (audio.paused) void startMusic();
     if (!reducedMotion.matches) {
       setTimeout(() => entry.classList.add('ivanna-salida'), 3100);
     }
@@ -496,17 +518,18 @@ if (new URLSearchParams(location.search).has('c')) {
 <script>
 (function(){
   var c=document.getElementById('amb-particulas');if(!c)return;
-  var cols=['#cfe6ff','#ffffff','#ffd98a','#8cc4ff'];
-  for(var i=0;i<46;i++){
+  var cols=['#ffd6e4','#ffffff','#ffd98a','#ff9db8'];
+  for(var i=0;i<90;i++){
     var d=document.createElement('i');d.className='amb-gl';
-    var z=2+Math.random()*3;
+    var z=2+Math.random()*4;
     d.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*85)+'%;width:'+z+'px;height:'+z+'px;animation-delay:'+(Math.random()*3)+'s;animation-duration:'+(2.4+Math.random()*3)+'s';
     c.appendChild(d);
   }
-  for(var j=0;j<12;j++){
+  var cs=['#ff5f9e','#ffd23f','#ffffff','#ff9d5c','#ffb3d1','#f7e08a'];
+  for(var j=0;j<38;j++){
     var b=document.createElement('i');b.className='amb-bokeh';
-    var r=8+Math.random()*16,col=cols[j%4];
-    b.style.cssText='left:'+(Math.random()*96)+'%;top:'+(58+Math.random()*38)+'%;width:'+r+'px;height:'+r+'px;background:'+col+';opacity:.5;animation-delay:'+(Math.random()*6)+'s';
+    var r=8+Math.random()*30,col=cs[j%cs.length];
+    b.style.cssText='left:'+(Math.random()*98)+'%;top:'+(52+Math.random()*46)+'%;width:'+r+'px;height:'+r+'px;--c:'+col+';animation-delay:'+(Math.random()*6)+'s;animation-duration:'+(6+Math.random()*6)+'s';
     c.appendChild(b);
   }
 })();
