@@ -17,8 +17,11 @@ td button{padding:5px 12px;font-size:.85rem}
 </style></head>
 <body>
 <h1>Confirmaciones de Ivanna</h1>
-<button id="login">Entrar con Google</button>
+<div id="acceso">
+  <button id="login">Entrar con Google</button>
+</div>
 <div id="panel" style="display:none">
+  <button class="sec" id="salir">Salir</button>
   <p id="res"></p>
   <div class="t"><table>
     <thead><tr><th>Invitado</th><th>Boletos</th><th>Mesa</th><th>Respuesta</th><th>Usa</th><th></th></tr></thead>
@@ -48,7 +51,7 @@ td button{padding:5px 12px;font-size:.85rem}
 </div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const app = initializeApp({
@@ -67,10 +70,11 @@ const nuevoCodigo = n => (norm(n).replace(/[^a-z]/g, '').slice(0, 6).toUpperCase
 let cache = [];
 
 $('login').onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert('No se pudo entrar: ' + e.message));
+$('salir').onclick = () => signOut(auth);
 onAuthStateChanged(auth, u => {
   $('panel').style.display = u ? 'block' : 'none';
-  $('login').style.display = u ? 'none' : 'inline-block';
-  if (u) { try { $('url').value = localStorage.getItem('xvCsv') || ''; } catch (e) {} lista(); }
+  $('acceso').style.display = u ? 'none' : 'block';
+  if (u) { try { $('url').value = localStorage.getItem('xvCsv') || ''; } catch (e) {} lista().then(() => { if ($('url').value.trim()) sync(); }); }
 });
 
 async function lista() {
@@ -135,7 +139,7 @@ function csv(t) {
   return f.filter(x => x.some(y => y.trim()));
 }
 
-$('sync').onclick = async () => {
+async function sync() {
   const url = $('url').value.trim(); if (!url) return;
   $('msg').textContent = 'Sincronizando…';
   try {
@@ -155,6 +159,7 @@ $('sync').onclick = async () => {
     }
     $('msg').textContent = 'Listo: ' + n + ' invitados sincronizados.'; lista();
   } catch (e) { $('msg').textContent = 'No se pudo sincronizar: ' + e.message; }
-};
+}
+$('sync').onclick = sync;
 </script>
 </body></html>
