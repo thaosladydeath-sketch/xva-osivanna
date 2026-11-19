@@ -37,7 +37,7 @@ td button{padding:5px 12px;font-size:.85rem}
     </div>
     <input id="fc" type="hidden">
     <button id="guardar">Guardar invitado</button><button class="sec" id="cancelar" style="display:none">Cancelar edición</button>
-    <p class="nota">El código del link se crea solo para cada invitado nuevo.</p>
+    <p class="nota">El link de cada invitado nuevo se crea con su nombre, por ejemplo ?c=FAMILIA-GONZALEZ-HUERTA.</p>
   </div>
 
   <div class="caja">
@@ -66,7 +66,12 @@ const auth = getAuth(app), db = getFirestore(app);
 const $ = id => document.getElementById(id);
 const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const norm = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9 ]/g, '').trim();
-const nuevoCodigo = n => (norm(n).replace(/[^a-z]/g, '').slice(0, 6).toUpperCase() || 'INV') + '-' + (crypto.getRandomValues(new Uint32Array(1))[0] % 90000 + 10000);
+const nuevoCodigo = n => {
+  const base = norm(n).replace(/ +/g, '-').replace(/[^a-z0-9-]/g, '').replace(/^-+|-+$/g, '').toUpperCase().slice(0, 34) || 'INVITADO';
+  let c = base, i = 2;
+  while (cache.some(x => x.id === c)) c = base + '-' + i++;
+  return c;
+};
 let cache = [];
 
 $('login').onclick = () => signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert('No se pudo entrar: ' + e.message));
@@ -106,7 +111,9 @@ $('guardar').onclick = async () => {
   const nombre = $('fn').value.trim(), boletos = parseInt($('fb').value, 10), mesa = $('fm').value.trim();
   if (!nombre || !(boletos >= 1)) { $('msg').textContent = 'Escribe el nombre y los boletos (1 o más).'; return; }
   try {
-    await setDoc(doc(db, 'invitados', $('fc').value || nuevoCodigo(nombre)), { nombre, boletos, mesa }, { merge: true });
+    const idG = $('fc').value || nuevoCodigo(nombre);
+    await setDoc(doc(db, 'invitados', idG), { nombre, boletos, mesa }, { merge: true });
+    if (!cache.some(x => x.id === idG)) cache.push({ id: idG, nombre });
     limpiar(); $('msg').textContent = 'Guardado: ' + nombre; lista();
   } catch (e) { $('msg').textContent = 'Error: ' + e.message; }
 };
@@ -153,8 +160,10 @@ async function sync() {
       const nombre = (r[iN] || '').trim(); if (!nombre) continue;
       const cod = iC >= 0 ? (r[iC] || '').trim().toUpperCase() : '';
       const ya = cod ? cache.find(x => x.id === cod) : cache.find(x => norm(x.nombre) === norm(nombre));
-      await setDoc(doc(db, 'invitados', ya ? ya.id : (cod || nuevoCodigo(nombre))),
+      const idG = ya ? ya.id : (cod || nuevoCodigo(nombre));
+      await setDoc(doc(db, 'invitados', idG),
         { nombre, boletos: parseInt(r[iB], 10) || 1, mesa: iM >= 0 ? (r[iM] || '').trim() : '' }, { merge: true });
+      if (!cache.some(x => x.id === idG)) cache.push({ id: idG, nombre });
       n++;
     }
     $('msg').textContent = 'Listo: ' + n + ' invitados sincronizados.'; lista();
