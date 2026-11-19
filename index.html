@@ -208,9 +208,34 @@ header>div>small,footer small,main small.script{font-size:40px}
 .photo-break{margin:18px auto}
 #publicar-foto{margin:12px 0 16px}
 #fotos-horario,#fotos-estado{font-size:22px;line-height:1.45;text-wrap:balance;margin-top:8px}
-section .card p{font-size:23px}</style>
+section .card p{font-size:23px}
+/* Ambientación del sobre: salón nocturno con candelabros, velas, piso reflejante y destellos */
+#ivanna-entrada{position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 50% at 50% 30%,#35639f 0%,#1a3a6e 42%,#0a1431 100%)}
+#ivanna-sobre{position:relative;z-index:2;color:#f3e2a8}
+#ivanna-pista{color:#f3e2a8;text-shadow:0 2px 10px #000b}
+#ivanna-sobre::before{content:"";position:absolute;left:-8%;right:-8%;top:-14%;bottom:-6%;z-index:-1;background:radial-gradient(ellipse 50% 46% at 50% 48%,#ffd98a88,#8cc4ff44 50%,transparent 72%);filter:blur(10px)}
+#ivanna-sobre::after{content:"";position:absolute;left:6%;right:6%;bottom:6%;height:14%;z-index:-1;background:radial-gradient(ellipse,#8cc4ffaa,transparent 70%);filter:blur(10px)}
+.amb{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.amb *{position:absolute;pointer-events:none;display:block}
+.amb-ice{left:50%;top:4%;width:70%;height:44%;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 62%,#bcdcffbb,#6aa0dc55 45%,transparent 72%);filter:blur(18px);animation:amb-respira 7s ease-in-out infinite}
+.amb-cand{top:6%;width:15%;max-width:150px;height:60%;filter:blur(2.5px);border-radius:46% 46% 6px 6px/5% 5% 0 0;background:linear-gradient(90deg,#34240e,#b98c3c 28%,#f6de97 50%,#b4863a 72%,#34240e);box-shadow:0 0 46px #e9c36a55}
+.amb-cand::before{content:"";left:-35%;right:-35%;top:-9%;height:11%;background:radial-gradient(circle at 12% 70%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 38% 40%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 62% 40%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 88% 70%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px)}
+.amb-cand.l{left:-4%}.amb-cand.r{right:-4%}
+.amb-vela{top:30%;width:9px;height:7.5%;min-height:34px;border-radius:2px;background:linear-gradient(90deg,#d9d2bd,#fffdf3 50%,#d9d2bd)}
+.amb-vela::before{content:"";left:50%;top:-18px;width:12px;height:20px;transform:translateX(-50%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 70%,#fff9e0,#ffd06a 55%,transparent 75%);box-shadow:0 0 22px 8px #ffcf6e88;animation:amb-llama 2.4s ease-in-out infinite}
+.amb-suelo{left:0;right:0;bottom:0;height:44%;background:linear-gradient(#0e2550 0%,#1d4a86 28%,#0b1d42 100%);border-top:1px solid #9bc6f055}
+.amb-suelo::before{content:"";left:0;right:0;top:0;height:100%;background:radial-gradient(ellipse 38% 55% at 50% 12%,#ffd98a66,transparent 72%),radial-gradient(ellipse 60% 40% at 50% 100%,#6eaaf044,transparent 70%)}
+.amb-bokeh{border-radius:50%;filter:blur(1px);animation:amb-flota 9s ease-in-out infinite}
+.amb-gl{border-radius:50%;background:#fff;box-shadow:0 0 6px 1px #cfe6ff;animation:amb-twinkle 3s ease-in-out infinite}
+@keyframes amb-respira{50%{opacity:.7;transform:translateX(-50%) scale(1.04)}}
+@keyframes amb-llama{0%,100%{transform:translateX(-50%) scale(1)}35%{transform:translateX(-50%) scale(.9,1.12)}70%{transform:translateX(-50%) scale(1.05,.95)}}
+@keyframes amb-twinkle{0%,100%{opacity:.15;transform:translateY(0)}50%{opacity:1;transform:translateY(-10px)}}
+@keyframes amb-flota{50%{transform:translateY(-14px);opacity:.35}}
+@media(prefers-reduced-motion:reduce){.amb *,.amb-vela::before{animation:none!important}}
+</style>
 
 <div id="ivanna-entrada">
+  <div class="amb" aria-hidden="true"><div class="amb-ice"></div><i class="amb-cand l"></i><i class="amb-cand r"></i><i class="amb-vela" style="left:27%"></i><i class="amb-vela" style="left:33%;top:28%"></i><i class="amb-vela" style="left:66%;top:28%"></i><i class="amb-vela" style="left:72%"></i><div class="amb-suelo"></div><div id="amb-particulas"></div></div>
   <button id="ivanna-sobre" type="button" aria-label="Toca para girar el sobre">
     <span class="ivanna-giro" aria-hidden="true">
       <span class="ivanna-cara ivanna-frente">
@@ -466,6 +491,24 @@ if (new URLSearchParams(location.search).has('c')) {
   new MutationObserver(function(){if(busy)return;busy=true;setTimeout(function(){run();busy=false;},50);})
     .observe(document.documentElement,{childList:true,subtree:true,characterData:true});
   run();
+})();
+</script>
+<script>
+(function(){
+  var c=document.getElementById('amb-particulas');if(!c)return;
+  var cols=['#cfe6ff','#ffffff','#ffd98a','#8cc4ff'];
+  for(var i=0;i<46;i++){
+    var d=document.createElement('i');d.className='amb-gl';
+    var z=2+Math.random()*3;
+    d.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*85)+'%;width:'+z+'px;height:'+z+'px;animation-delay:'+(Math.random()*3)+'s;animation-duration:'+(2.4+Math.random()*3)+'s';
+    c.appendChild(d);
+  }
+  for(var j=0;j<12;j++){
+    var b=document.createElement('i');b.className='amb-bokeh';
+    var r=8+Math.random()*16,col=cols[j%4];
+    b.style.cssText='left:'+(Math.random()*96)+'%;top:'+(58+Math.random()*38)+'%;width:'+r+'px;height:'+r+'px;background:'+col+';opacity:.5;animation-delay:'+(Math.random()*6)+'s';
+    c.appendChild(b);
+  }
 })();
 </script>
 </html>
