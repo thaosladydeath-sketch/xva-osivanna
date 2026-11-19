@@ -262,6 +262,10 @@ section .card p{font-size:23px}
 .ivanna-burst i.st{border-radius:0;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);background:var(--c);box-shadow:none}
 @keyframes ivanna-burst{0%{opacity:0;transform:translate(0,0) scale(.2)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.3)}}
 @media(prefers-reduced-motion:reduce){.ivanna-burst{display:none}}
+/* Parte de atrás del sobre: sin bolitas, destellos ni animaciones (el efecto queda solo al abrir) */
+#ivanna-entrada.ivanna-atras #amb-particulas{display:none!important}
+#ivanna-entrada.ivanna-atras .amb-ice,#ivanna-entrada.ivanna-atras .amb-suelo::after{animation:none!important}
+#ivanna-entrada.ivanna-atras .ivanna-sello::before,#ivanna-entrada.ivanna-atras .ivanna-sello::after{display:none!important}
 </style>
 
 <div id="ivanna-entrada">
@@ -383,6 +387,7 @@ section .card p{font-size:23px}
       state = 'turning';
       void startMusic();
       envelope.classList.add('ivanna-volteado');
+      entry.classList.add('ivanna-atras');
       document.getElementById('ivanna-pista').textContent = '';
       setTimeout(() => {
         state = 'back';
