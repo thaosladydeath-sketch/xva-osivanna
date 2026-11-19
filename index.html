@@ -265,6 +265,7 @@ section .card p{font-size:23px}
 /* Parte de atrás del sobre: sin bolitas, destellos ni animaciones (el efecto queda solo al abrir) */
 #ivanna-entrada.ivanna-atras #amb-particulas{display:none!important}
 #ivanna-entrada.ivanna-atras .amb-ice,#ivanna-entrada.ivanna-atras .amb-suelo::after{animation:none!important}
+#ivanna-entrada.ivanna-atras .ivanna-destellos,#ivanna-entrada .ivanna-burst{display:none!important}
 #ivanna-entrada.ivanna-atras .ivanna-sello::before,#ivanna-entrada.ivanna-atras .ivanna-sello::after{display:none!important}
 </style>
 
@@ -398,7 +399,7 @@ section .card p{font-size:23px}
     if (state !== 'back') return;
     state = 'opening';
     envelope.classList.add('ivanna-abierto');
-    burst();
+    // burst(); (efecto de bolitas quitado)
     if (audio.paused) void startMusic();
     if (!reducedMotion.matches) {
       setTimeout(() => entry.classList.add('ivanna-salida'), 3100);
