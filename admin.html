@@ -22,12 +22,7 @@ td button{padding:5px 12px;font-size:.85rem}
 </div>
 <div id="panel" style="display:none">
   <button class="sec" id="salir">Salir</button>
-  <div class="caja">
-    <h2>Enlaces cortos (Bitly)</h2>
-    <input id="bt" type="password" placeholder="Token de Bitly (se guarda solo en este navegador)">
-    <button class="sec" id="btg">Guardar token</button>
-    <p class="nota">Con el token guardado, "Copiar link" crea y copia el enlace corto de Bitly. Si no hay token o falla, copia el link largo.</p>
-  </div>
+  <p class="nota">"Copiar link" crea y copia un enlace corto (is.gd) con el nombre del invitado. Si falla, copia el link largo.</p>
   <p id="res"></p>
   <div class="t"><table>
     <thead><tr><th>Invitado</th><th>Boletos</th><th>Mesa</th><th>Respuesta</th><th>Usa</th><th></th></tr></thead>
@@ -113,24 +108,26 @@ function limpiar() {
 }
 $('cancelar').onclick = limpiar;
 
-try { $('bt').value = localStorage.getItem('xvBitly') || ''; } catch (e) {}
-$('btg').onclick = () => { try { localStorage.setItem('xvBitly', $('bt').value.trim()); $('msg').textContent = 'Token guardado en este navegador'; } catch (e) {} };
+function isgd(url, short) {
+  const q = 'https://is.gd/create.php?format=json&logstats=0&url=' + encodeURIComponent(url) + (short ? '&shorturl=' + encodeURIComponent(short) : '');
+  return fetch(q).then(r => r.json()).catch(() => new Promise((ok, no) => {
+    const cb = 'isgd' + Math.random().toString(36).slice(2), sc = document.createElement('script');
+    window[cb] = d => { delete window[cb]; sc.remove(); ok(d); };
+    sc.onerror = () => { delete window[cb]; sc.remove(); no(new Error('no se pudo conectar con is.gd')); };
+    sc.src = q + '&callback=' + cb; document.head.appendChild(sc);
+  }));
+}
 
 async function corto(g) {
   if (g.corto) return g.corto;
-  const tk = $('bt').value.trim();
-  if (!tk) throw new Error('falta el token de Bitly');
   const largo = new URL('./?c=' + g.id, location.href).href;
-  const r = await fetch('https://api-ssl.bitly.com/v4/shorten', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ long_url: largo })
-  });
-  const j = await r.json();
-  if (!j.link) throw new Error(j.message || 'Bitly no respondió');
-  await setDoc(doc(db, 'invitados', g.id), { corto: j.link }, { merge: true });
-  g.corto = j.link;
-  return j.link;
+  const nom = ('ivanna_' + g.id.toLowerCase().replace(/[^a-z0-9]+/g, '_')).replace(/_+$/, '').slice(0, 30).replace(/_+$/, '');
+  let j = await isgd(largo, nom);
+  if (!j.shorturl) j = await isgd(largo);
+  if (!j.shorturl) throw new Error(j.errormessage || 'is.gd no respondio');
+  await setDoc(doc(db, 'invitados', g.id), { corto: j.shorturl }, { merge: true });
+  g.corto = j.shorturl;
+  return j.shorturl;
 }
 
 $('guardar').onclick = async () => {
