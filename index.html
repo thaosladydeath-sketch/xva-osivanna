@@ -210,21 +210,21 @@ header>div>small,footer small,main small.script{font-size:40px}
 #fotos-horario,#fotos-estado{font-size:22px;line-height:1.45;text-wrap:balance;margin-top:8px}
 section .card p{font-size:23px}
 /* Ambientación del sobre: salón nocturno con candelabros, velas, piso reflejante y destellos */
-#ivanna-entrada{position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 50% at 50% 30%,#8c3a58 0%,#5b1f3b 42%,#240a18 100%)}
-#ivanna-sobre{position:relative;z-index:2;color:#f3e2a8}
-#ivanna-pista{color:#f3e2a8;text-shadow:0 2px 10px #000b}
-#ivanna-sobre::before{content:"";position:absolute;left:-8%;right:-8%;top:-14%;bottom:-6%;z-index:-1;background:radial-gradient(ellipse 50% 46% at 50% 48%,#ffd98a88,#ff9db844 50%,transparent 72%);filter:blur(10px)}
-#ivanna-sobre::after{content:"";position:absolute;left:6%;right:6%;bottom:6%;height:14%;z-index:-1;background:radial-gradient(ellipse,#ffb0c8aa,transparent 70%);filter:blur(10px)}
+#ivanna-entrada{position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 50% at 50% 30%,#fff1ec 0%,#f6d3cb 45%,#e2aeb0 100%)}
+#ivanna-sobre{position:relative;z-index:2;color:#7a4a3a}
+#ivanna-pista{color:#7a4a3a;text-shadow:0 1px 8px #fff9}
+#ivanna-sobre::before{content:"";position:absolute;left:-8%;right:-8%;top:-14%;bottom:-6%;z-index:-1;background:radial-gradient(ellipse 50% 46% at 50% 48%,#fff3c4aa,#ffe3e044 50%,transparent 72%);filter:blur(10px)}
+#ivanna-sobre::after{content:"";position:absolute;left:6%;right:6%;bottom:6%;height:14%;z-index:-1;background:radial-gradient(ellipse,#f2a9b8aa,transparent 70%);filter:blur(10px)}
 .amb{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .amb *{position:absolute;pointer-events:none;display:block}
-.amb-ice{left:50%;top:4%;width:70%;height:44%;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 62%,#ffd6e4aa,#d9708f55 45%,transparent 72%);filter:blur(18px);animation:amb-respira 7s ease-in-out infinite}
+.amb-ice{left:50%;top:4%;width:70%;height:44%;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 62%,#ffffffcc,#ffd9e055 45%,transparent 72%);filter:blur(18px);animation:amb-respira 7s ease-in-out infinite}
 .amb-cand{top:6%;width:15%;max-width:150px;height:60%;filter:blur(2.5px);border-radius:46% 46% 6px 6px/5% 5% 0 0;background:linear-gradient(90deg,#34240e,#b98c3c 28%,#f6de97 50%,#b4863a 72%,#34240e);box-shadow:0 0 46px #e9c36a55}
 .amb-cand::before{content:"";left:-35%;right:-35%;top:-9%;height:11%;background:radial-gradient(circle at 12% 70%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 38% 40%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 62% 40%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px),radial-gradient(circle at 88% 70%,#fff7d6 0 2px,#ffd37a 6px,transparent 12px)}
 .amb-cand.l{left:-4%}.amb-cand.r{right:-4%}
 .amb-vela{top:30%;width:9px;height:7.5%;min-height:34px;border-radius:2px;background:linear-gradient(90deg,#d9d2bd,#fffdf3 50%,#d9d2bd)}
 .amb-vela::before{content:"";left:50%;top:-18px;width:12px;height:20px;transform:translateX(-50%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 70%,#fff9e0,#ffd06a 55%,transparent 75%);box-shadow:0 0 22px 8px #ffcf6e88;animation:amb-llama 2.4s ease-in-out infinite}
-.amb-suelo{left:0;right:0;bottom:0;height:44%;background:linear-gradient(#3b0f26 0%,#702749 28%,#1e0814 100%);border-top:1px solid #f0a8c455}
-.amb-suelo::before{content:"";left:0;right:0;top:0;height:100%;background:radial-gradient(ellipse 38% 55% at 50% 12%,#ffd98a66,transparent 72%),radial-gradient(ellipse 60% 40% at 50% 100%,#f08aa844,transparent 70%)}
+.amb-suelo{left:0;right:0;bottom:0;height:44%;background:linear-gradient(#e8b9bb 0%,#f3cfc9 28%,#d79ca2 100%);border-top:1px solid #ffffff99}
+.amb-suelo::before{content:"";left:0;right:0;top:0;height:100%;background:radial-gradient(ellipse 38% 55% at 50% 12%,#fff3c4aa,transparent 72%),radial-gradient(ellipse 60% 40% at 50% 100%,#ffffff66,transparent 70%)}
 .amb-bokeh{border-radius:50%;filter:blur(1px);animation:amb-flota 9s ease-in-out infinite}
 .amb-gl{border-radius:50%;background:#fff;box-shadow:0 0 6px 1px #cfe6ff;animation:amb-twinkle 3s ease-in-out infinite}
 @keyframes amb-respira{50%{opacity:.7;transform:translateX(-50%) scale(1.04)}}
@@ -243,7 +243,7 @@ section .card p{font-size:23px}
 .amb-ref{bottom:0;width:15%;max-width:150px;height:32%;filter:blur(7px);opacity:.55;background:linear-gradient(#f2d27a,transparent)}
 .amb-ref.l{left:-4%}.amb-ref.r{right:-4%}
 .amb-suelo::after{content:"";left:18%;right:18%;top:6%;height:30%;background:radial-gradient(ellipse,#ffe3a0aa,transparent 68%);filter:blur(12px);animation:amb-respira2 5s ease-in-out infinite}
-.amb-gl{width:4px;height:4px;background:#fff;box-shadow:0 0 8px 2px #ffe4c4cc,0 0 2px 1px #fff}
+.amb-gl{width:4px;height:4px;background:#fffbe8;box-shadow:0 0 7px 2px #ffc857cc,0 0 2px 1px #fff}
 .amb-bokeh{filter:blur(.6px);box-shadow:0 0 14px 3px currentColor}
 .ivanna-sello{isolation:isolate}
 .ivanna-sello::before{content:"";position:absolute;left:50%;top:50%;width:420%;height:420%;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;background:repeating-conic-gradient(from 0deg,#fff0b0dd 0 2.5deg,transparent 2.5deg 11deg);-webkit-mask:radial-gradient(circle,transparent 12%,#000 20%,transparent 64%);mask:radial-gradient(circle,transparent 12%,#000 20%,transparent 64%);animation:amb-rayos 14s linear infinite}
@@ -251,8 +251,13 @@ section .card p{font-size:23px}
 @keyframes amb-rayos{to{transform:translate(-50%,-50%) rotate(360deg)}}
 @keyframes amb-respira2{50%{opacity:.55}}
 #amb-particulas{inset:0}
-.amb-bokeh{background:radial-gradient(circle at 50% 50%,#fff 0,var(--c) 38%,transparent 72%)!important;box-shadow:0 0 18px 5px var(--c)!important;filter:none!important;mix-blend-mode:screen;opacity:.9}
+.amb-bokeh{background:radial-gradient(circle at 50% 50%,#fff 0,var(--c) 38%,transparent 72%)!important;box-shadow:0 0 18px 5px var(--c)!important;filter:none!important;mix-blend-mode:normal;opacity:.8}
 @keyframes amb-flota{0%,100%{transform:translateY(0) scale(1);opacity:.9}50%{transform:translateY(-16px) scale(1.15);opacity:.55}}
+.ivanna-burst{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.ivanna-burst i{position:absolute;display:block;left:var(--x);top:var(--y);width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);border-radius:50%;background:radial-gradient(circle,#fff 0,var(--c) 40%,transparent 72%);box-shadow:0 0 16px 4px var(--c);opacity:0;animation:ivanna-burst var(--d) var(--w) cubic-bezier(.2,.7,.3,1) forwards}
+.ivanna-burst i.st{border-radius:0;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);background:var(--c);box-shadow:none}
+@keyframes ivanna-burst{0%{opacity:0;transform:translate(0,0) scale(.2)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.3)}}
+@media(prefers-reduced-motion:reduce){.ivanna-burst{display:none}}
 </style>
 
 <div id="ivanna-entrada">
@@ -344,6 +349,32 @@ section .card p{font-size:23px}
   const invitation = document.getElementById('ivanna-invitacion');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let state = 'front';
+  const burst = () => {
+    if (reducedMotion.matches) return;
+    const box = document.createElement('div');
+    box.className = 'ivanna-burst';
+    box.setAttribute('aria-hidden', 'true');
+    entry.appendChild(box);
+    const er = envelope.getBoundingClientRect(), nr = entry.getBoundingClientRect();
+    const x = er.left - nr.left + er.width / 2, y = er.top - nr.top + er.height * 0.45;
+    const cols = ['#ffffff', '#ffd23f', '#ff9db8', '#fff1b0', '#f7a9c4', '#ffe4c4', '#ffb347'];
+    const W = innerWidth, H = innerHeight;
+    const wave = (n, delay) => {
+      for (let i = 0; i < n; i++) {
+        const el = document.createElement('i');
+        const star = Math.random() < 0.25;
+        if (star) el.className = 'st';
+        const size = star ? 10 + Math.random() * 20 : 8 + Math.random() * 30;
+        el.style.cssText = '--x:' + x + 'px;--y:' + y + 'px;--s:' + size + 'px;--c:' + cols[i % cols.length] +
+          ';--dx:' + ((Math.random() - 0.5) * W * 1.4) + 'px;--dy:' + (-H * 0.95 + Math.random() * H * 1.15) + 'px;--d:' +
+          (2 + Math.random() * 1.6) + 's;--w:' + (delay + Math.random() * 0.8) + 's';
+        box.appendChild(el);
+      }
+    };
+    wave(90, 0);
+    wave(80, 0.9);
+    setTimeout(() => box.remove(), 4500);
+  };
   envelope.addEventListener('click', () => {
     if (state === 'front') {
       state = 'turning';
@@ -359,6 +390,7 @@ section .card p{font-size:23px}
     if (state !== 'back') return;
     state = 'opening';
     envelope.classList.add('ivanna-abierto');
+    burst();
     if (audio.paused) void startMusic();
     if (!reducedMotion.matches) {
       setTimeout(() => entry.classList.add('ivanna-salida'), 3100);
@@ -525,7 +557,7 @@ if (new URLSearchParams(location.search).has('c')) {
     d.style.cssText='left:'+(Math.random()*100)+'%;top:'+(Math.random()*85)+'%;width:'+z+'px;height:'+z+'px;animation-delay:'+(Math.random()*3)+'s;animation-duration:'+(2.4+Math.random()*3)+'s';
     c.appendChild(d);
   }
-  var cs=['#ff5f9e','#ffd23f','#ffffff','#ff9d5c','#ffb3d1','#f7e08a'];
+  var cs=['#ffffff','#ffd23f','#ff9db8','#fff1b0','#f7a9c4','#ffe4c4'];
   for(var j=0;j<38;j++){
     var b=document.createElement('i');b.className='amb-bokeh';
     var r=8+Math.random()*30,col=cs[j%cs.length];
