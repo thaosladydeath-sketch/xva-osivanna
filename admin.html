@@ -22,6 +22,12 @@ td button{padding:5px 12px;font-size:.85rem}
 </div>
 <div id="panel" style="display:none">
   <button class="sec" id="salir">Salir</button>
+  <div class="caja">
+    <h2>Enlaces cortos (Bitly)</h2>
+    <input id="bt" type="password" placeholder="Token de Bitly (se guarda solo en este navegador)">
+    <button class="sec" id="btg">Guardar token</button>
+    <p class="nota">Con el token guardado, "Copiar link" crea y copia el enlace corto de Bitly. Si no hay token o falla, copia el link largo.</p>
+  </div>
   <p id="res"></p>
   <div class="t"><table>
     <thead><tr><th>Invitado</th><th>Boletos</th><th>Mesa</th><th>Respuesta</th><th>Usa</th><th></th></tr></thead>
@@ -107,6 +113,26 @@ function limpiar() {
 }
 $('cancelar').onclick = limpiar;
 
+try { $('bt').value = localStorage.getItem('xvBitly') || ''; } catch (e) {}
+$('btg').onclick = () => { try { localStorage.setItem('xvBitly', $('bt').value.trim()); $('msg').textContent = 'Token guardado en este navegador'; } catch (e) {} };
+
+async function corto(g) {
+  if (g.corto) return g.corto;
+  const tk = $('bt').value.trim();
+  if (!tk) throw new Error('falta el token de Bitly');
+  const largo = new URL('./?c=' + g.id, location.href).href;
+  const r = await fetch('https://api-ssl.bitly.com/v4/shorten', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + tk, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ long_url: largo })
+  });
+  const j = await r.json();
+  if (!j.link) throw new Error(j.message || 'Bitly no respondió');
+  await setDoc(doc(db, 'invitados', g.id), { corto: j.link }, { merge: true });
+  g.corto = j.link;
+  return j.link;
+}
+
 $('guardar').onclick = async () => {
   const nombre = $('fn').value.trim(), boletos = parseInt($('fb').value, 10), mesa = $('fm').value.trim();
   if (!nombre || !(boletos >= 1)) { $('msg').textContent = 'Escribe el nombre y los boletos (1 o más).'; return; }
@@ -120,7 +146,14 @@ $('guardar').onclick = async () => {
 
 $('tb').onclick = async e => {
   const { c, e: ed, d } = e.target.dataset;
-  if (c) { navigator.clipboard.writeText(new URL('./?c=' + c, location.href).href); e.target.textContent = '¡Copiado!'; }
+  if (c) {
+    const g = cache.find(x => x.id === c);
+    try { await navigator.clipboard.writeText(await corto(g)); e.target.textContent = '¡Copiado!'; }
+    catch (er) {
+      navigator.clipboard.writeText(new URL('./?c=' + c, location.href).href);
+      $('msg').textContent = 'No se pudo acortar (' + er.message + '); copié el link largo.';
+    }
+  }
   if (ed) {
     const g = cache.find(x => x.id === ed); if (!g) return;
     $('fn').value = g.nombre; $('fb').value = g.boletos; $('fm').value = g.mesa || ''; $('fc').value = g.id;
