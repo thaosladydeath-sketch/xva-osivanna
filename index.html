@@ -176,13 +176,13 @@ header h1{font-size:clamp(76px,22vw,120px)}
 .hero-photo{width:min(78vw,300px);height:auto;aspect-ratio:190/245;border:0;background:none;border-radius:150px 150px 8px 8px;box-shadow:0 10px 28px #866c3040}
 .hero-photo img{display:block;width:100%;height:100%;margin:0;object-fit:cover;object-position:50% 20%;filter:none}
 strong,b{font-weight:400}
-</style>
+.map-links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.map-links[hidden]{display:none}</style>
 
 <div id="ivanna-entrada">
   <button id="ivanna-sobre" type="button" aria-label="Toca para girar el sobre">
     <span class="ivanna-giro" aria-hidden="true">
       <span class="ivanna-cara ivanna-frente">
-        <span id="ivanna-destinatario" class="ivanna-destinatario"><strong class="ivanna-para">Para:</strong><span class="ivanna-nombre" style="display:none"><span id="ivanna-nombre"></span></span></span>
+        <span id="ivanna-destinatario" class="ivanna-destinatario"><strong class="ivanna-para">Para:</strong><span class="ivanna-nombre"><span id="ivanna-nombre"></span><span class="ivanna-familia"></span></span></span>
         <svg class="ivanna-lirios" viewBox="0 0 120 100" aria-hidden="true">
           <path d="M100 97Q65 79 39 38M100 97Q93 70 88 51" fill="none" stroke="#828659" stroke-width="2"/>
           <path d="M81 84Q56 83 44 67Q70 67 81 84M94 82Q96 65 114 60Q111 76 94 82" fill="#a8a679"/>
@@ -315,13 +315,13 @@ set('sponsor',datos.madrina || 'Nombres de los padrinos');
 set('dress',datos.vestimenta);
 for (const [title,symbol,venue] of [['Ceremonia','♰',datos.ceremonia],['Recepción','✺',datos.recepcion]]) {
   const section=document.createElement('section');
-  section.innerHTML='<div class="symbol"></div><h2></h2><p><strong></strong><br><i></i></p><p class="muted"></p><a class="btn" hidden>Ver en Google Maps</a>';
+  section.innerHTML='<div class="symbol"></div><h2></h2><p><strong></strong><br><i></i></p><p class="muted"></p><div class="map-links" hidden><a class="btn" data-app="google" target="_blank" rel="noopener">Google Maps</a> <a class="btn" data-app="waze" target="_blank" rel="noopener">Waze</a> <a class="btn" data-app="apple" target="_blank" rel="noopener">Apple Maps</a></div>';
   section.querySelector('.symbol').textContent=symbol;
   section.querySelector('h2').textContent=title;
   section.querySelector('strong').textContent=venue.hora || 'Horario por definir';
   section.querySelector('i').textContent=venue.lugar || 'Lugar por definir';
   section.querySelector('.muted').textContent=venue.direccion;
-  if(venue.mapa){const link=section.querySelector('a');link.href=venue.mapa;link.hidden=false;}
+  if(venue.mapa){const box=section.querySelector('.map-links');const q=encodeURIComponent([venue.lugar,venue.direccion].filter(Boolean).join(', '));box.querySelector('[data-app=google]').href=venue.mapa;box.querySelector('[data-app=waze]').href='https://waze.com/ul?q='+q+'&navigate=yes';box.querySelector('[data-app=apple]').href='https://maps.apple.com/?q='+q;box.hidden=false;}
   byId('venues').append(section);
 }
 if(datos.whatsapp){byId('whatsapp').href='https://wa.me/'+datos.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent('Hola, quiero confirmar mi asistencia a los XV años de Ivanna Huerta Jiménez.');byId('rsvp').hidden=false;}
