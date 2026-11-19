@@ -232,8 +232,8 @@ strong,b{font-weight:400}
   <a class="btn" id="abrir-mesa" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/52025741" target="_blank" rel="noopener">Ver mesa de regalos</a>
 </div></section>
 
-<section id="confirmacion" hidden><div class="card"><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>30 de noviembre</strong>. ¡Te esperamos con mucho cariño!</p><p id="cargando" role="status">Cargando tu invitación…</p><p id="error" hidden>Revisa el enlace personalizado que recibiste.</p><div id="inv" hidden><p hidden><strong id="hola"></strong></p><p>Lugares reservados: <strong id="nb"></strong></p><p id="mesasTxt" style="display:none"></p><label for="num">¿Cuántos asistirán?</label><br><select id="num"></select><div class="rsvp-actions"><button id="bsi">Sí, asistiré</button><button id="bno">No podré asistir</button></div><p id="estado" role="status"></p></div></div></section>
-<section id="rsvp" hidden><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>30 de noviembre</strong>. ¡Te esperamos con mucho cariño!</p><a class="btn" id="whatsapp">Confirmar por WhatsApp</a></section>
+<section id="confirmacion" hidden><div class="card"><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>4 de diciembre</strong>. ¡Te esperamos con mucho cariño!</p><p id="cargando" role="status">Cargando tu invitación…</p><p id="error" hidden>Revisa el enlace personalizado que recibiste.</p><div id="inv" hidden><p hidden><strong id="hola"></strong></p><p>Lugares reservados: <strong id="nb"></strong></p><p id="mesasTxt" style="display:none"></p><label for="num">¿Cuántos asistirán?</label><br><select id="num"></select><div class="rsvp-actions"><button id="bsi">Sí, asistiré</button><button id="bno">No podré asistir</button></div><p id="estado" role="status"></p></div></div></section>
+<section id="rsvp" hidden><h2>Confirma tu asistencia</h2><p>Nos dará mucha alegría contar contigo en este día tan especial. Te agradeceremos confirmar tu asistencia a más tardar el <strong>4 de diciembre</strong>. ¡Te esperamos con mucho cariño!</p><a class="btn" id="whatsapp">Confirmar por WhatsApp</a></section>
 <footer><small>Mis XV años</small><h2>Ivanna Huerta Jiménez</h2><i>¡Te espero!</i></footer>
 <a class="btn fixed up" href="#inicio" aria-label="Volver al inicio">⌃</a>
 </main>
@@ -312,13 +312,13 @@ set('sponsor',datos.madrina || 'Nombres de los padrinos');
 set('dress',datos.vestimenta);
 for (const [title,symbol,venue] of [['Ceremonia','♰',datos.ceremonia],['Recepción','✺',datos.recepcion]]) {
   const section=document.createElement('section');
-  section.innerHTML='<div class="symbol"></div><h2></h2><p><strong></strong><br><i></i></p><p class="muted"></p><div class="map-links" hidden><button class="btn" type="button" aria-expanded="false">Ver ubicación</button><div class="map-menu" hidden><a data-app="google" target="_blank" rel="noopener">Google Maps</a><a data-app="waze" target="_blank" rel="noopener">Waze</a><a data-app="apple" target="_blank" rel="noopener">Apple Maps</a></div></div>';
+  section.innerHTML='<div class="symbol"></div><h2></h2><p><strong></strong><br><i></i></p><p class="muted"></p><a class="btn" hidden>Ver ubicación</a>';
   section.querySelector('.symbol').textContent=symbol;
   section.querySelector('h2').textContent=title;
   section.querySelector('strong').textContent=venue.hora || 'Horario por definir';
   section.querySelector('i').textContent=venue.lugar || 'Lugar por definir';
   section.querySelector('.muted').textContent=venue.direccion;
-  if(venue.mapa){const box=section.querySelector('.map-links');const q=encodeURIComponent([venue.lugar,venue.direccion].filter(Boolean).join(', '));box.querySelector('[data-app=google]').href=venue.mapa;box.querySelector('[data-app=waze]').href='https://waze.com/ul?q='+q+'&navigate=yes';box.querySelector('[data-app=apple]').href='https://maps.apple.com/?q='+q;box.hidden=false;const bt=box.querySelector('button'),mn=box.querySelector('.map-menu');bt.onclick=()=>{mn.hidden=!mn.hidden;bt.setAttribute('aria-expanded',String(!mn.hidden))};}
+  if(venue.mapa){const link=section.querySelector('a');link.href=venue.mapa;link.target='_blank';link.rel='noopener';link.hidden=false;}
   byId('venues').append(section);
 }
 if(datos.whatsapp){byId('whatsapp').href='https://wa.me/'+datos.whatsapp.replace(/\D/g,'')+'?text='+encodeURIComponent('Hola, quiero confirmar mi asistencia a los XV años de Ivanna Huerta Jiménez.');byId('rsvp').hidden=false;}
