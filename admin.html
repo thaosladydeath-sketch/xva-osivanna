@@ -92,7 +92,7 @@ async function lista() {
     $('tb').innerHTML = rows;
     $('res').textContent = 'Confirmaron: ' + si + ' · No asisten: ' + no + ' · Pendientes: ' + pend + ' · Boletos confirmados: ' + bol;
   } catch (e) {
-    $('res').textContent = 'Sin permiso para ver la lista. Entra con la cuenta administradora y revisa que pegaste las reglas.';
+    $('res').textContent = 'Sin permiso para ver la lista. Tu sesión es: ' + (auth.currentUser ? auth.currentUser.email : 'ninguna') + '. Debe ser exactamente la cuenta que está en las reglas de Firebase. (' + (e.code || e.message) + ')';
   }
 }
 
