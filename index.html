@@ -182,7 +182,7 @@ strong,b{font-weight:400}
 .ivanna-lirios{display:none!important}
 .map-open{position:relative;display:inline-block}
 .map-menu{display:flex;flex-direction:column;gap:6px;margin-top:10px}.map-menu[hidden]{display:none}
-.map-menu a{display:block;padding:8px 14px;background:#fff8dd;color:#79591e;border:1px solid #bc9a53;border-radius:6px;text-decoration:none;font-size:.7em}</style>
+.map-menu a{display:block;padding:8px 14px;background:#fff8dd;color:#79591e;border:1px solid #bc9a53;border-radius:6px;text-decoration:none;font-size:.7em}.ivanna-nombre,#ivanna-nombre{font-weight:700!important}</style>
 
 <div id="ivanna-entrada">
   <button id="ivanna-sobre" type="button" aria-label="Toca para girar el sobre">
@@ -304,6 +304,7 @@ strong,b{font-weight:400}
 }
 </script>
 <script src="datos.js"></script>
+<script>datos.recepcion=Object.assign({},datos.recepcion,{lugar:"Ex Hacienda de San Agustín",hora:"A partir de las 6:00 p. m."});</script>
 <script>
 const byId = id => document.getElementById(id);
 const set = (id,value) => {byId(id).textContent=value};
